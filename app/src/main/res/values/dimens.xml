@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_padding">12dp</dimen>
+    <dimen name="logo_size">64dp</dimen>
+    <dimen name="rank_width">40dp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="medium_padding">8dp</dimen>
+</resources>
