@@ -1,6 +1,7 @@
-package com.smobile.premierleague.standings
+package com.smobile.premierleague.team
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,24 +11,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.smobile.premierleague.AppExecutors
 import com.smobile.premierleague.R
 import com.smobile.premierleague.binding.FragmentDataBindingComponent
-import com.smobile.premierleague.databinding.FragmentStandingsBinding
+import com.smobile.premierleague.databinding.FragmentTeamBinding
 import com.smobile.premierleague.di.Injectable
 import com.smobile.premierleague.util.autoCleared
 import javax.inject.Inject
 
 /**
- * Fragment for showing current standings in chosen league
+ * Fragment to show all players of one team
  */
-class StandingsFragment : Fragment(), Injectable {
-
-    companion object {
-        private const val PREMIER_LEAGUE_ID = 524
-    }
+class TeamFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -37,11 +34,11 @@ class StandingsFragment : Fragment(), Injectable {
 
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
-    var binding by autoCleared<FragmentStandingsBinding>()
+    var binding by autoCleared<FragmentTeamBinding>()
 
-    var adapter by autoCleared<StandingsListAdapter>()
+    var adapter by autoCleared<TeamListAdapter>()
 
-    lateinit var standingsViewModel: StandingsViewModel
+    lateinit var teamViewModel: TeamViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,40 +46,39 @@ class StandingsFragment : Fragment(), Injectable {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_standings,
+            R.layout.fragment_team,
             container,
             false,
             dataBindingComponent
         )
-
+        binding.playersList.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        standingsViewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(StandingsViewModel::class.java)
+        teamViewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(TeamViewModel::class.java)
         setupDataObserver()
-        val adapter = StandingsListAdapter(
-            dataBindingComponent = dataBindingComponent,
-            appExecutors = appExecutors
-        ) { standing ->
-            findNavController().navigate(StandingsFragmentDirections.showTeam(standing.id))
+        val adapter = TeamListAdapter(
+            dataBindingComponent,
+            appExecutors
+        ) { player ->
+            Log.d("steva", "You have selected: " + player.name)
         }
-        val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.standingsList.addItemDecoration(dividerItemDecoration)
-        binding.standingsList.adapter = adapter
+        binding.playersList.adapter = adapter
         this.adapter = adapter
     }
 
     override fun onResume() {
         super.onResume()
-        standingsViewModel.setLeagueId(PREMIER_LEAGUE_ID)
+        val params = TeamFragmentArgs.fromBundle(requireArguments())
+        teamViewModel.setTeamId(params.teamId)
     }
 
     private fun setupDataObserver() {
-        standingsViewModel.standings.observe(viewLifecycleOwner, Observer { result ->
-            adapter.submitList(result?.data)
+        teamViewModel.players.observe(viewLifecycleOwner, Observer { result ->
+            adapter.submitList(result.data)
         })
     }
 

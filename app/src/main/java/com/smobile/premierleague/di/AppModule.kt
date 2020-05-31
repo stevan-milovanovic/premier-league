@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.smobile.premierleague.api.LeagueService
 import com.smobile.premierleague.db.LeagueDb
+import com.smobile.premierleague.db.PlayerDao
 import com.smobile.premierleague.db.StandingDao
 import com.smobile.premierleague.util.LiveDataCallAdapterFactory
 import dagger.Module
@@ -59,7 +60,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideStandingDao(db: LeagueDb): StandingDao {
-        return db.standingDao()
-    }
+    fun provideStandingDao(db: LeagueDb): StandingDao = db.standingDao()
+
+    @Singleton
+    @Provides
+    fun providesPlayerDao(db: LeagueDb): PlayerDao = db.playerDao()
+
 }

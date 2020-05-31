@@ -1,4 +1,4 @@
-package com.smobile.premierleague.model
+package com.smobile.premierleague.model.base
 
 /**
  * Status of a resource that is provided to the UI

@@ -12,4 +12,10 @@ interface LeagueService {
     @GET("leagueTable/{leagueId}")
     fun getStandings(@Path("leagueId") leagueId: Int): LiveData<ApiResponse<StandingsNetworkResponse>>
 
+    @GET("players/squad/{teamId}/{season}")
+    fun getTeam(
+        @Path("teamId") teamId: Int,
+        @Path("season") season: String
+    ): LiveData<ApiResponse<TeamNetworkResponse>>
+
 }

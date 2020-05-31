@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Premier League</string>
     <string name="rank">%1$d.</string>
-    <string name="value">%1$d</string>¬
+    <string name="value">%1$d</string>
+    <string name="age">Age: %1$d</string>
     <string name="team_logo">Team Logo</string>
     <string name="club">Club</string>
     <string name="played">Pl</string>
@@ -10,4 +11,7 @@
     <string name="drawn">D</string>
     <string name="won">W</string>
     <string name="position">Pos</string>
+
+    <string name="team_players">Team Players</string>
+    <string name="player">Player</string>
 </resources>

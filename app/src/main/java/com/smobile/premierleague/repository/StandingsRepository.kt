@@ -6,7 +6,7 @@ import com.smobile.premierleague.api.StandingsNetworkResponse
 import com.smobile.premierleague.api.LeagueService
 import com.smobile.premierleague.db.LeagueDb
 import com.smobile.premierleague.db.StandingDao
-import com.smobile.premierleague.model.Resource
+import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.model.Standing
 import javax.inject.Inject
 import javax.inject.Singleton

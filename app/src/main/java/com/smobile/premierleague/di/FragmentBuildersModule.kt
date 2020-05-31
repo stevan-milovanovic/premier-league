@@ -1,6 +1,7 @@
 package com.smobile.premierleague.di
 
 import com.smobile.premierleague.standings.StandingsFragment
+import com.smobile.premierleague.team.TeamFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,4 +10,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeStandingsFragment(): StandingsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeTeamFragment(): TeamFragment
 }

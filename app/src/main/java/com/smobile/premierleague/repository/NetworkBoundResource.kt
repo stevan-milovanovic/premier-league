@@ -9,7 +9,7 @@ import com.smobile.premierleague.api.ApiEmptyResponse
 import com.smobile.premierleague.api.ApiErrorResponse
 import com.smobile.premierleague.api.ApiResponse
 import com.smobile.premierleague.api.ApiSuccessResponse
-import com.smobile.premierleague.model.Resource
+import com.smobile.premierleague.model.base.Resource
 
 /**
  * A generic class that can provide a resource backed by both the sqlite db and the network.

@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.smobile.premierleague.model.Resource
 import com.smobile.premierleague.model.Standing
+import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.StandingsRepository
 import javax.inject.Inject
 
+/**
+ * ViewModel for [StandingsFragment]
+ */
 class StandingsViewModel @Inject constructor(standingsRepository: StandingsRepository) :
     ViewModel() {
 
@@ -27,6 +30,5 @@ class StandingsViewModel @Inject constructor(standingsRepository: StandingsRepos
 
         _leagueId.value = leagueId
     }
-
 
 }

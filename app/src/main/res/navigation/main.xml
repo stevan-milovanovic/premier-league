@@ -8,6 +8,19 @@
     <fragment
         android:id="@+id/standingsFragment"
         android:name="com.smobile.premierleague.standings.StandingsFragment"
-        android:label="fragment_standings"
-        tools:layout="@layout/fragment_standings" />
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_standings">
+        <action
+            android:id="@+id/showTeam"
+            app:destination="@id/teamFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="com.smobile.premierleague.team.TeamFragment"
+        android:label="@string/team_players"
+        tools:layout="@layout/fragment_team">
+        <argument
+            android:name="teamId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
