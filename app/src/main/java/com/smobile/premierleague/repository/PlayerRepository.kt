@@ -32,10 +32,14 @@ class PlayerRepository @Inject constructor(
 
             override fun shouldFetch(data: List<Player>?) = data == null || data.isEmpty()
 
-            override fun loadFromDb() = playerDao.getForTeam(teamId)
+            override fun loadFromDb() = playerDao.loadOrdered(teamId)
 
             override fun createCall() = leagueService.getTeam(teamId, season)
         }.asLiveData()
+    }
+
+    fun loadForId(playerId: Int): LiveData<Player> {
+        return playerDao.getById(playerId)
     }
 
 }

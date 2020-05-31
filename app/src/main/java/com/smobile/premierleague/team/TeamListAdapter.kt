@@ -14,6 +14,7 @@ import com.smobile.premierleague.ui.common.DataBoundListAdapter
 class TeamListAdapter(
     private val dataBindingComponent: DataBindingComponent,
     appExecutors: AppExecutors,
+    private val viewModel: TeamViewModel,
     private val clickHandler: ((Player) -> Unit)?
 ) : DataBoundListAdapter<Player, PlayerItemBinding>(
     appExecutors = appExecutors,
@@ -43,5 +44,6 @@ class TeamListAdapter(
 
     override fun bind(binding: PlayerItemBinding, item: Player) {
         binding.player = item
+        binding.viewModel = viewModel
     }
 }

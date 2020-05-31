@@ -21,9 +21,15 @@ abstract class DataBoundListAdapter<T, V : ViewDataBinding>(
         .setBackgroundThreadExecutor(appExecutors.diskIO())
         .build()
 ) {
+    private val viewHolders: MutableList<DataBoundViewHolder<ViewDataBinding>> = mutableListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<V> {
         val binding = createBinding(parent)
-        return DataBoundViewHolder(binding)
+        val viewHolder = DataBoundViewHolder(binding)
+        binding.lifecycleOwner = viewHolder
+        viewHolder.markCreated()
+        viewHolders.add(viewHolder)
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<V>, position: Int) {
@@ -33,5 +39,21 @@ abstract class DataBoundListAdapter<T, V : ViewDataBinding>(
     protected abstract fun createBinding(parent: ViewGroup): V
 
     protected abstract fun bind(binding: V, item: T)
+
+    override fun onViewAttachedToWindow(holder: DataBoundViewHolder<V>) {
+        super.onViewAttachedToWindow(holder)
+        holder.markAttach()
+    }
+
+    override fun onViewDetachedFromWindow(holder: DataBoundViewHolder<V>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.markDetach()
+    }
+
+    fun setLifecycleDestroyed() {
+        viewHolders.forEach {
+            it.markDestroyed()
+        }
+    }
 
 }

@@ -14,4 +14,7 @@
 
     <string name="team_players">Team Players</string>
     <string name="player">Player</string>
+    <string name="compare_players">Compare Players</string>
+    <string name="head_to_head">Head To Head</string>
+    <string name="players_already_selected">Players have already been selected, deselect the player first.</string>
 </resources>

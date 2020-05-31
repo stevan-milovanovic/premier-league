@@ -15,20 +15,19 @@ import javax.inject.Inject
 class StandingsViewModel @Inject constructor(standingsRepository: StandingsRepository) :
     ViewModel() {
 
-    private val _leagueId: MutableLiveData<Int> = MutableLiveData()
-    val leagueId: LiveData<Int>
-        get() = _leagueId
+    private val leagueId: MutableLiveData<Int> = MutableLiveData()
+
     val standings: LiveData<Resource<List<Standing>>> = Transformations
         .switchMap(leagueId) {
             standingsRepository.loadStandings(it)
         }
 
     fun setLeagueId(leagueId: Int) {
-        if (_leagueId.value == leagueId) {
+        if (this.leagueId.value == leagueId) {
             return
         }
 
-        _leagueId.value = leagueId
+        this.leagueId.value = leagueId
     }
 
 }

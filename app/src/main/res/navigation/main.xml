@@ -22,5 +22,20 @@
         <argument
             android:name="teamId"
             app:argType="integer" />
+        <action
+            android:id="@+id/showHeadToHead"
+            app:destination="@id/headToHeadFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/headToHeadFragment"
+        android:name="com.smobile.premierleague.headtohead.HeadToHeadFragment"
+        android:label="@string/head_to_head"
+        tools:layout="@layout/fragment_head_to_head">
+        <argument
+            android:name="playerOneId"
+            app:argType="integer" />
+        <argument
+            android:name="playerTwoId"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -1,7 +1,6 @@
 package com.smobile.premierleague.team
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.smobile.premierleague.AppExecutors
 import com.smobile.premierleague.R
 import com.smobile.premierleague.binding.FragmentDataBindingComponent
@@ -52,6 +53,7 @@ class TeamFragment : Fragment(), Injectable {
             dataBindingComponent
         )
         binding.playersList.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -62,12 +64,30 @@ class TeamFragment : Fragment(), Injectable {
         setupDataObserver()
         val adapter = TeamListAdapter(
             dataBindingComponent,
-            appExecutors
+            appExecutors,
+            teamViewModel
         ) { player ->
-            Log.d("steva", "You have selected: " + player.name)
+            if (!teamViewModel.choosePlayer(player.id)) {
+                view?.let {
+                    Snackbar.make(
+                        it, getString(R.string.players_already_selected),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
         binding.playersList.adapter = adapter
         this.adapter = adapter
+
+        binding.compareFab.setOnClickListener {
+            teamViewModel.playerOne.value?.id?.let { playerOneId ->
+                teamViewModel.playerTwo.value?.id?.let { playerTwoId ->
+                    findNavController().navigate(
+                        TeamFragmentDirections.showHeadToHead(playerOneId, playerTwoId)
+                    )
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -76,10 +96,32 @@ class TeamFragment : Fragment(), Injectable {
         teamViewModel.setTeamId(params.teamId)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter.setLifecycleDestroyed()
+    }
+
     private fun setupDataObserver() {
         teamViewModel.players.observe(viewLifecycleOwner, Observer { result ->
+            updateFabVisibility()
             adapter.submitList(result.data)
         })
+
+        teamViewModel.playerOne.observe(viewLifecycleOwner, Observer {
+            updateFabVisibility()
+        })
+
+        teamViewModel.playerTwo.observe(viewLifecycleOwner, Observer {
+            updateFabVisibility()
+        })
+    }
+
+    private fun updateFabVisibility() {
+        if (teamViewModel.playerOne.value != null && teamViewModel.playerTwo.value != null) {
+            binding.compareFab.show()
+        } else {
+            binding.compareFab.hide()
+        }
     }
 
 }

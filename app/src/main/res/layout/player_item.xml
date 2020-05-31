@@ -8,6 +8,10 @@
         <variable
             name="player"
             type="com.smobile.premierleague.model.Player" />
+
+        <variable
+            name="viewModel"
+            type="com.smobile.premierleague.team.TeamViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -15,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/logo_padding"
         android:elevation="@dimen/medium_padding"
+        app:cardBackgroundColor="@{viewModel.playerOne.id == player.id ? @color/colorBackground : viewModel.playerTwo.id == player.id ? @color/colorBackground : @android:color/white}"
         app:cardCornerRadius="@dimen/medium_padding">
 
         <LinearLayout
@@ -26,36 +31,38 @@
             android:padding="@dimen/logo_padding">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_account_circle_black_64dp"
-                android:gravity="center"
+                style="@style/PlayerTextView"
+                android:drawableTop="@{viewModel.playerOne.id == player.id ? @drawable/ic_account_circle_primary_dark_64dp : viewModel.playerTwo.id == player.id ? @drawable/ic_account_circle_primary_dark_64dp : @drawable/ic_account_circle_accent_64dp}"
                 android:text="@{player.name}"
-                android:textAlignment="center"
+                android:textColor="@{viewModel.playerOne.id == player.id ? @android:color/white : viewModel.playerTwo.id == player.id ? @android:color/white : @android:color/tertiary_text_dark}"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Roberto Firmino" />
+                tools:drawableTop="@drawable/ic_account_circle_primary_dark_64dp"
+                tools:text="Roberto Firmino"
+                tools:textColor="@android:color/tertiary_text_dark" />
 
             <TextView
+                style="@style/PlayerTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{@string/age(player.age)}"
-                android:textSize="16sp"
-                tools:text="Age: 19" />
+                android:textColor="@{viewModel.playerOne.id == player.id ? @android:color/white : viewModel.playerTwo.id == player.id ? @android:color/white : @android:color/tertiary_text_dark}"
+                tools:text="Age: 19"
+                tools:textColor="@android:color/tertiary_text_dark" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/PlayerTextView"
                 android:text="@{player.position}"
-                android:textSize="16sp"
-                tools:text="Defender" />
+                android:textColor="@{viewModel.playerOne.id == player.id ? @android:color/white : viewModel.playerTwo.id == player.id ? @android:color/white : @android:color/tertiary_text_dark}"
+                tools:text="Defender"
+                tools:textColor="@android:color/tertiary_text_dark" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/PlayerTextView"
                 android:text="@{player.nationality}"
-                android:textSize="16sp"
-                tools:text="Brazil" />
+                android:textColor="@{viewModel.playerOne.id == player.id ? @android:color/white : viewModel.playerTwo.id == player.id ? @android:color/white : @android:color/tertiary_text_dark}"
+                tools:text="Brazil"
+                tools:textColor="@android:color/tertiary_text_dark" />
 
         </LinearLayout>
 
