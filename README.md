@@ -2,9 +2,7 @@
 
 This repository serves as Android project architecture showcase.
 
-
-![Premier League Table](premier-league-table.png)          ![Premier League Table](team-players.png)
-
+![Premier League Table](premier-league-table.png)  ![Premier League Table](team-players.png)  ![Premier League Table](head-to-head.png)
 
 Repository is based on the official Android Github Browser Sample with Android Architecture Components:
 https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample
