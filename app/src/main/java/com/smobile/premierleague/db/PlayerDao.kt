@@ -1,6 +1,5 @@
 package com.smobile.premierleague.db
 
-import android.util.SparseIntArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.room.Dao
@@ -9,7 +8,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.PlayerPosition
-import java.util.*
 
 /**
  * Interface for database access for Player related operations
@@ -23,25 +21,24 @@ abstract class PlayerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(player: Player)
 
-    @Query("SELECT * FROM player WHERE id = :id")
-    abstract fun getById(id: Int): LiveData<Player>
+    @Query("SELECT id, teamId, name, age, position, nationality FROM player WHERE id = :playerId")
+    abstract fun getById(playerId: Int): LiveData<Player>
+
+    @Query("SELECT * FROM player WHERE id = :playerOneId OR id = :playerTwoId")
+    abstract fun getHeadToHeadDetails(playerOneId: Int, playerTwoId: Int): LiveData<List<Player>>
 
     fun loadOrdered(teamId: Int): LiveData<List<Player>> {
         return Transformations.map(getForTeam(teamId)) { players ->
-            val order = SparseIntArray()
-            players.withIndex().forEach {
-                order.put(it.value.id, PlayerPosition.mapToOrder(it.value.position))
-            }
-            Collections.sort(players) { player1, player2 ->
-                val pos1 = order.get(player1.id)
-                val pos2 = order.get(player2.id)
-                pos1 - pos2
-            }
-            players
+            players.sortedWith(Comparator { player1, player2 ->
+                val pos1 = PlayerPosition.mapToOrder(player1.position)
+                val pos2 = PlayerPosition.mapToOrder(player2.position)
+
+                return@Comparator if (pos1 == pos2) player1.id - player2.id else pos1 - pos2
+            })
         }
     }
 
-    @Query("SELECT * FROM player WHERE teamId = :teamId")
+    @Query("SELECT id, teamId, name, age, position, nationality FROM player WHERE teamId = :teamId")
     protected abstract fun getForTeam(teamId: Int): LiveData<List<Player>>
 
 }

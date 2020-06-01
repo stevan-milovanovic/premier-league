@@ -12,7 +12,7 @@ import com.smobile.premierleague.model.Standing
     entities = [
         Standing::class,
         Player::class],
-    version = 5,
+    version = 7,
     exportSchema = false
 )
 abstract class LeagueDb : RoomDatabase() {

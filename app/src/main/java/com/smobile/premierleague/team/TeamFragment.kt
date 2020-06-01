@@ -1,6 +1,7 @@
 package com.smobile.premierleague.team
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,8 +83,9 @@ class TeamFragment : Fragment(), Injectable {
         binding.compareFab.setOnClickListener {
             teamViewModel.playerOne.value?.id?.let { playerOneId ->
                 teamViewModel.playerTwo.value?.id?.let { playerTwoId ->
+                    val params = TeamFragmentArgs.fromBundle(requireArguments())
                     findNavController().navigate(
-                        TeamFragmentDirections.showHeadToHead(playerOneId, playerTwoId)
+                        TeamFragmentDirections.showHeadToHead(playerOneId, playerTwoId, params.teamId)
                     )
                 }
             }

@@ -1,6 +1,5 @@
 package com.smobile.premierleague.api
 
-import android.util.Log
 import retrofit2.Response
 
 /**
@@ -11,14 +10,12 @@ import retrofit2.Response
 sealed class ApiResponse<T> {
     companion object {
         fun <T> create(error: Throwable): ApiErrorResponse<T> {
-            Log.d("steva", error.message ?: "API ERROR")
             return ApiErrorResponse(error.message ?: "unknown error")
         }
 
         fun <T> create(response: Response<T>): ApiResponse<T> {
             return if (response.isSuccessful) {
                 val body = response.body()
-                Log.d("steva", body.toString())
                 if (body == null || response.code() == 204) {
                     ApiEmptyResponse()
                 } else {
@@ -31,7 +28,6 @@ sealed class ApiResponse<T> {
                 } else {
                     msg
                 }
-                Log.d("steva", errorMsg)
                 ApiErrorResponse(errorMsg ?: "unknown error")
             }
         }

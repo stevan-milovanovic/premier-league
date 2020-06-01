@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/standingsFragment"
         android:name="com.smobile.premierleague.standings.StandingsFragment"
-        android:label="@string/app_name"
+        android:label="@string/premier_league"
         tools:layout="@layout/fragment_standings">
         <action
             android:id="@+id/showTeam"
@@ -36,6 +36,9 @@
             app:argType="integer" />
         <argument
             android:name="playerTwoId"
+            app:argType="integer" />
+        <argument
+            android:name="teamId"
             app:argType="integer" />
     </fragment>
 </navigation>

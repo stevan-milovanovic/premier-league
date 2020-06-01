@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.smobile.premierleague.PremierLeagueApp.Companion.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
@@ -14,10 +15,6 @@ import javax.inject.Inject
  * ViewModel for [TeamFragment]
  */
 class TeamViewModel @Inject constructor(playerRepository: PlayerRepository) : ViewModel() {
-
-    companion object {
-        const val SEASON = "2019-2020"
-    }
 
     private val teamId: MutableLiveData<Int> = MutableLiveData()
     private val playerOneId: MutableLiveData<Int?> = MutableLiveData()
