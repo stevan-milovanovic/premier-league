@@ -72,7 +72,7 @@ class PlayerRepository @Inject constructor(
             }
 
             override fun loadFromDb(): LiveData<List<Player>> {
-                return playerDao.getHeadToHeadDetails(playerOneId, playerTwoId)
+                return playerDao.getHeadToHeadDetails(teamId, playerOneId, playerTwoId)
             }
 
             override fun createCall() = leagueService.getTeamStatistics(teamId, season)

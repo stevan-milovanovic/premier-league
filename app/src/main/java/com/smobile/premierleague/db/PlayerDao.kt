@@ -24,8 +24,8 @@ abstract class PlayerDao {
     @Query("SELECT id, teamId, name, age, position, nationality FROM player WHERE id = :playerId")
     abstract fun getById(playerId: Int): LiveData<Player>
 
-    @Query("SELECT * FROM player WHERE id = :playerOneId OR id = :playerTwoId")
-    abstract fun getHeadToHeadDetails(playerOneId: Int, playerTwoId: Int): LiveData<List<Player>>
+    @Query("SELECT * FROM player WHERE id = :playerOneId AND teamId = :teamId OR id = :playerTwoId AND teamId = :teamId")
+    abstract fun getHeadToHeadDetails(teamId: Int, playerOneId: Int, playerTwoId: Int): LiveData<List<Player>>
 
     fun loadOrdered(teamId: Int): LiveData<List<Player>> {
         return Transformations.map(getForTeam(teamId)) { players ->
