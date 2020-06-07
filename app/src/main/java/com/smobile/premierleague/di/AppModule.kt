@@ -1,7 +1,15 @@
 package com.smobile.premierleague.di
 
 import android.app.Application
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import androidx.room.Room
+import com.smobile.premierleague.Const.API_HOST_HEADER
+import com.smobile.premierleague.Const.API_HOST_HEADER_VALUE
+import com.smobile.premierleague.Const.API_KEY_HEADER
+import com.smobile.premierleague.Const.API_KEY_HEADER_VALUE
+import com.smobile.premierleague.Const.BASE_URL
+import com.smobile.premierleague.Const.DB_NAME
 import com.smobile.premierleague.api.LeagueService
 import com.smobile.premierleague.db.LeagueDb
 import com.smobile.premierleague.db.PlayerDao
@@ -20,32 +28,34 @@ import javax.inject.Singleton
 
 @Module(includes = [ViewModelModule::class])
 class AppModule {
+
     @Singleton
     @Provides
-    fun providePremierLeagueService(): LeagueService {
-        val clientBuilder = OkHttpClient.Builder()
-        val headerAuthorizationInterceptor = Interceptor { chain ->
-            var request: Request = chain.request()
-            val headers: Headers =
-                request.headers().newBuilder()
-                    .add(
-                        "x-rapidapi-key",
-                        "63284ca007msh15dbd714e326824p1120e4jsn99bdcaf89bea"
-                    )
-                    .add(
-                        "x-rapidapi-host",
-                        "api-football-v1.p.rapidapi.com"
-                    ).build()
-            request = request.newBuilder().headers(headers).build()
-            chain.proceed(request)
-        }
-        clientBuilder.addInterceptor(headerAuthorizationInterceptor)
+    fun provideInterceptor() = Interceptor { chain ->
+        var request: Request = chain.request()
+        val headers: Headers =
+            request.headers().newBuilder()
+                .add(API_KEY_HEADER, API_KEY_HEADER_VALUE)
+                .add(API_HOST_HEADER, API_HOST_HEADER_VALUE)
+                .build()
+        request = request.newBuilder().headers(headers).build()
+        chain.proceed(request)
+    }
 
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(interceptor: Interceptor) = OkHttpClient.Builder()
+        .addInterceptor(interceptor)
+        .build()
+
+    @Singleton
+    @Provides
+    fun providePremierLeagueService(client: OkHttpClient): LeagueService {
         return Retrofit.Builder()
-            .baseUrl("https://api-football-v1.p.rapidapi.com/v2/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
-            .client(clientBuilder.build())
+            .client(client)
             .build()
             .create(LeagueService::class.java)
     }
@@ -53,7 +63,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideDb(app: Application): LeagueDb {
-        return Room.databaseBuilder(app, LeagueDb::class.java, "league.db")
+        return Room.databaseBuilder(app, LeagueDb::class.java, DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -65,5 +75,17 @@ class AppModule {
     @Singleton
     @Provides
     fun providesPlayerDao(db: LeagueDb): PlayerDao = db.playerDao()
+
+    @Singleton
+    @Provides
+    fun getSharedPrefs(app: Application): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(app)
+    }
+
+    @Singleton
+    @Provides
+    fun getEditor(preferences: SharedPreferences): SharedPreferences.Editor {
+        return preferences.edit()
+    }
 
 }

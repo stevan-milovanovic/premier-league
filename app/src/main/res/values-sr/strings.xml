@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">SMobile</string>
+    <string name="premier_league">Premijer Liga</string>
+    <string name="rank">%1$d.</string>
+    <string name="value">%1$d</string>
+    <string name="age">Godina: %1$d</string>
+    <string name="goals">Golova: %1$d</string>
+    <string name="assists">Asistencija: %1$d</string>
+    <string name="passes">Pasova: %1$d</string>
+    <string name="team_logo">Logo tima</string>
+    <string name="club">Klub</string>
+    <string name="played">Odig</string>
+    <string name="points">Bod</string>
+    <string name="lost">Por</string>
+    <string name="drawn">Ner</string>
+    <string name="won">Pob</string>
+    <string name="position">Poz</string>
+    <string name="team_players">Igrači tima</string>
+    <string name="player">Igrač</string>
+    <string name="compare_players">Uporedi igrače</string>
+    <string name="head_to_head">Uporedna statistika</string>
+    <string name="players_already_selected">Igrači su već odabrani, prvo poništite izbor.</string>
+    <string name="settings">Podešavanja</string>
+    <string name="language">Jezik</string>
+    <string name="change_the_language_in_the_application">Promenite jezik aplikacije</string>
+    <string name="choose_language">Odaberite jezik</string>
+    <string name="english">Engleski</string>
+    <string name="serbian">Srpski</string>
+</resources>
