@@ -22,7 +22,7 @@ class StandingsViewModelTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val repository = mock(StandingsRepository::class.java)
+    private val repository: StandingsRepository = mock()
     private val viewModel = StandingsViewModel(repository)
 
     @Test

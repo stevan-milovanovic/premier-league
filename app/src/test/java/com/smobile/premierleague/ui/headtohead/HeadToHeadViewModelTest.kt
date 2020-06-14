@@ -10,14 +10,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
 
-
+/**
+ * Unit test class for [HeadToHeadViewModel]
+ */
 class HeadToHeadViewModelTest {
 
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val repository = mock(PlayerRepository::class.java)
+    private val repository: PlayerRepository = mock()
     private val viewModel = HeadToHeadViewModel(repository)
 
     @Test

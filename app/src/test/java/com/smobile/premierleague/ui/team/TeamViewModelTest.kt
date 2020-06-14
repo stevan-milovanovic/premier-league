@@ -7,16 +7,19 @@ import com.smobile.premierleague.testing.mock
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.never
+import org.mockito.Mockito.verify
 
-
+/**
+ * Unit class for [TeamViewModel]
+ */
 class TeamViewModelTest {
 
     @Rule
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val repository = mock(PlayerRepository::class.java)
+    private val repository: PlayerRepository = mock()
     private val viewModel = TeamViewModel(repository)
 
     @Test

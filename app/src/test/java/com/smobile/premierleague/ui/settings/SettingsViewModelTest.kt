@@ -3,6 +3,7 @@ package com.smobile.premierleague.ui.settings
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.smobile.premierleague.Const
+import com.smobile.premierleague.testing.mock
 import com.smobile.premierleague.util.Language
 import org.junit.Assert.*
 import org.junit.Rule
@@ -18,8 +19,8 @@ class SettingsViewModelTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val sharedPrefs = mock(SharedPreferences::class.java)
-    private val editor = mock(SharedPreferences.Editor::class.java)
+    private val sharedPrefs: SharedPreferences = mock()
+    private val editor: SharedPreferences.Editor = mock()
     private val viewModel = SettingsViewModel(sharedPrefs, editor)
 
     @Test
