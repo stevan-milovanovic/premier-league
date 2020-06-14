@@ -10,11 +10,6 @@ import javax.inject.Inject
 
 class PremierLeagueApp : Application(), HasAndroidInjector {
 
-    companion object {
-        const val SEASON = "2019-2020"
-        const val LEAGUE = "Premier League"
-    }
-
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 

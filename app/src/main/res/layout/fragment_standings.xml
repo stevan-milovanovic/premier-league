@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".standings.StandingsFragment">
+        tools:context="com.smobile.premierleague.ui.standings.StandingsFragment">
 
         <include
             android:id="@+id/header"

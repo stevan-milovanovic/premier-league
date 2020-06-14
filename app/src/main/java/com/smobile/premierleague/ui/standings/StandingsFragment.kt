@@ -1,13 +1,13 @@
-package com.smobile.premierleague.standings
+package com.smobile.premierleague.ui.standings
 
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -34,13 +34,11 @@ class StandingsFragment : Fragment(), Injectable {
     @Inject
     lateinit var appExecutors: AppExecutors
 
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var binding by autoCleared<FragmentStandingsBinding>()
+    private var adapter by autoCleared<StandingsListAdapter>()
 
-    var binding by autoCleared<FragmentStandingsBinding>()
-
-    var adapter by autoCleared<StandingsListAdapter>()
-
-    lateinit var standingsViewModel: StandingsViewModel
+    private val standingsViewModel: StandingsViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +58,6 @@ class StandingsFragment : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        standingsViewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(StandingsViewModel::class.java)
         setupDataObserver()
         val adapter = StandingsListAdapter(
             dataBindingComponent = dataBindingComponent,

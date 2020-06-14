@@ -1,4 +1,4 @@
-package com.smobile.premierleague.standings
+package com.smobile.premierleague.ui.standings
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.smobile.premierleague.settings
+package com.smobile.premierleague.ui.settings
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.smobile.premierleague.Const.LANGUAGE
 import com.smobile.premierleague.util.Language
+import com.smobile.premierleague.util.Language.Companion.fromLanguageCode
 import java.util.*
 import javax.inject.Inject
 
@@ -29,8 +30,8 @@ class SettingsViewModel @Inject constructor(
         get() = availableLanguages.toList().find { it == language.value }?.ordinal ?: 0
 
     fun loadLanguage() {
-        sharedPreferences.getString(LANGUAGE, Locale.ENGLISH.language)?.let {
-            _language.value = Language.fromLanguageCode(it)
+        sharedPreferences.getString(LANGUAGE, Language.ENGLISH.locale.language)?.let {
+            _language.value = fromLanguageCode(it)
         } ?: run {
             _language.value = Language.ENGLISH
         }

@@ -1,4 +1,4 @@
-package com.smobile.premierleague.headtohead
+package com.smobile.premierleague.ui.headtohead
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.smobile.premierleague.AppExecutors
@@ -31,13 +31,11 @@ class HeadToHeadFragment : Fragment(), Injectable {
     @Inject
     lateinit var appExecutors: AppExecutors
 
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var binding by autoCleared<FragmentHeadToHeadBinding>()
+    private var adapter by autoCleared<HeadToHeadAdapter>()
 
-    var binding by autoCleared<FragmentHeadToHeadBinding>()
-
-    var adapter by autoCleared<HeadToHeadAdapter>()
-
-    lateinit var headToHeadViewModel: HeadToHeadViewModel
+    private val headToHeadViewModel: HeadToHeadViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,8 +54,6 @@ class HeadToHeadFragment : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        headToHeadViewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(HeadToHeadViewModel::class.java)
         setupDataObserver()
         val adapter = HeadToHeadAdapter(
             dataBindingComponent,
@@ -66,10 +62,7 @@ class HeadToHeadFragment : Fragment(), Injectable {
         )
         binding.headToHeadList.adapter = adapter
         this.adapter = adapter
-    }
 
-    override fun onResume() {
-        super.onResume()
         val params = HeadToHeadFragmentArgs.fromBundle(requireArguments())
         headToHeadViewModel.setParams(params.playerOneId, params.playerTwoId, params.teamId)
     }

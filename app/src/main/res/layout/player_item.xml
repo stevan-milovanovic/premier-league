@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.smobile.premierleague.team.TeamViewModel" />
+            type="com.smobile.premierleague.ui.team.TeamViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

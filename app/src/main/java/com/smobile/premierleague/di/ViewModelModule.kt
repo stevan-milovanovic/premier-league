@@ -2,10 +2,10 @@ package com.smobile.premierleague.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.smobile.premierleague.headtohead.HeadToHeadViewModel
-import com.smobile.premierleague.settings.SettingsViewModel
-import com.smobile.premierleague.standings.StandingsViewModel
-import com.smobile.premierleague.team.TeamViewModel
+import com.smobile.premierleague.ui.headtohead.HeadToHeadViewModel
+import com.smobile.premierleague.ui.settings.SettingsViewModel
+import com.smobile.premierleague.ui.standings.StandingsViewModel
+import com.smobile.premierleague.ui.team.TeamViewModel
 import com.smobile.premierleague.viewmodel.AppViewModelFactory
 import dagger.Binds
 import dagger.Module

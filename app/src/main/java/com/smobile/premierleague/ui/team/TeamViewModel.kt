@@ -1,10 +1,10 @@
-package com.smobile.premierleague.team
+package com.smobile.premierleague.ui.team
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.smobile.premierleague.PremierLeagueApp.Companion.SEASON
+import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
@@ -40,6 +40,13 @@ class TeamViewModel @Inject constructor(playerRepository: PlayerRepository) : Vi
                 AbsentLiveData.create()
             } else {
                 playerRepository.loadForId(playerId = it)
+            }
+        }
+
+    val selectedPlayers: Pair<Int, Int>?
+        get() = playerOne.value?.id?.let { playerOneId ->
+            playerTwo.value?.id?.let { playerTwoId ->
+                Pair(playerOneId, playerTwoId)
             }
         }
 

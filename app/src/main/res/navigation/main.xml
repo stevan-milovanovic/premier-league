@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/standingsFragment"
-        android:name="com.smobile.premierleague.standings.StandingsFragment"
+        android:name="com.smobile.premierleague.ui.standings.StandingsFragment"
         android:label="@string/premier_league"
         tools:layout="@layout/fragment_standings">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/teamFragment"
-        android:name="com.smobile.premierleague.team.TeamFragment"
+        android:name="com.smobile.premierleague.ui.team.TeamFragment"
         android:label="@string/team_players"
         tools:layout="@layout/fragment_team">
         <argument
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/headToHeadFragment"
-        android:name="com.smobile.premierleague.headtohead.HeadToHeadFragment"
+        android:name="com.smobile.premierleague.ui.headtohead.HeadToHeadFragment"
         android:label="@string/head_to_head"
         tools:layout="@layout/fragment_head_to_head">
         <argument
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.smobile.premierleague.settings.SettingsFragment"
+        android:name="com.smobile.premierleague.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

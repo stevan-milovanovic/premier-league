@@ -1,10 +1,10 @@
-package com.smobile.premierleague.headtohead
+package com.smobile.premierleague.ui.headtohead
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.smobile.premierleague.PremierLeagueApp.Companion.SEASON
+import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
@@ -43,14 +43,43 @@ class HeadToHeadViewModel @Inject constructor(playerRepository: PlayerRepository
             return
         }
 
+        if (playerOneId == playerTwoId) {
+            throw IllegalArgumentException("It is not possible to compare a player with himself.")
+        }
+
         this.playerOneId.value = playerOneId
         this.playerTwoId.value = playerTwoId
         this.teamId.value = teamId
     }
 
     val winnerId: LiveData<Int> = Transformations
-        .switchMap(players) { players ->
-            playerOneId
+        .switchMap(players) { resource ->
+            resource.data?.let { players ->
+                comparePlayers(players)
+            }
         }
+
+    private fun comparePlayers(players: List<Player>): LiveData<Int> {
+        if (players.size != 2) return AbsentLiveData.create()
+
+        players[0].goals?.let { playerOneGoals ->
+            players[1].goals?.let { playerTwoGoals ->
+                if (playerOneGoals.total > playerTwoGoals.total) return playerOneId
+                if (playerOneGoals.total < playerTwoGoals.total) return playerTwoId
+
+                if (playerOneGoals.assists > playerTwoGoals.assists) return playerOneId
+                if (playerOneGoals.assists < playerTwoGoals.assists) return playerTwoId
+
+                players[0].passes?.let { playerOnePasses ->
+                    players[1].passes?.let { playerTwoPasses ->
+                        if (playerOnePasses.total > playerTwoPasses.total) return playerOneId
+                        if (playerOnePasses.total < playerTwoPasses.total) return playerTwoId
+                    }
+                }
+            }
+        }
+
+        return AbsentLiveData.create()
+    }
 
 }

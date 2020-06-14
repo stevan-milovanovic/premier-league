@@ -1,4 +1,4 @@
-package com.smobile.premierleague.standings
+package com.smobile.premierleague.ui.standings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

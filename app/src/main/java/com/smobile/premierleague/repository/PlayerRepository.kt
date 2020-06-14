@@ -2,12 +2,13 @@ package com.smobile.premierleague.repository
 
 import androidx.lifecycle.LiveData
 import com.smobile.premierleague.AppExecutors
-import com.smobile.premierleague.PremierLeagueApp.Companion.LEAGUE
+import com.smobile.premierleague.Const.LEAGUE
 import com.smobile.premierleague.api.LeagueService
 import com.smobile.premierleague.api.TeamNetworkResponse
 import com.smobile.premierleague.db.PlayerDao
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
+import com.smobile.premierleague.testing.OpenForTesting
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,6 +16,7 @@ import javax.inject.Singleton
  * Repository that handles Player instances
  */
 @Singleton
+@OpenForTesting
 class PlayerRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val playerDao: PlayerDao,

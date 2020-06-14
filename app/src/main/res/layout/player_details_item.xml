@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.smobile.premierleague.headtohead.HeadToHeadViewModel" />
+            type="com.smobile.premierleague.ui.headtohead.HeadToHeadViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

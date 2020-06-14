@@ -1,4 +1,4 @@
-package com.smobile.premierleague.standings
+package com.smobile.premierleague.ui.standings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -7,16 +7,15 @@ import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.StandingsRepository
 import com.smobile.premierleague.testing.mock
-import org.hamcrest.CoreMatchers.notNullValue
-import org.junit.Assert.assertThat
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.*
 
-@RunWith(JUnit4::class)
+/**
+ * Unit test class for [StandingsViewModel]
+ */
 class StandingsViewModelTest {
 
     @Rule
@@ -28,8 +27,33 @@ class StandingsViewModelTest {
 
     @Test
     fun testInitialState() {
-        assertThat(viewModel.standings, notNullValue())
+        assertNotNull(viewModel.standings)
+        assertNull(viewModel.standings.value)
+        assertFalse(viewModel.standings.hasObservers())
+    }
+
+    @Test
+    fun doNotFetchWithoutObservers() {
+        viewModel.setLeagueId(100)
         verify(repository, never()).loadStandings(anyInt())
+    }
+
+    @Test
+    fun fetchWhenObserved() {
+        viewModel.setLeagueId(100)
+        viewModel.standings.observeForever(mock())
+        verify(repository).loadStandings(100)
+    }
+
+    @Test
+    fun changeWhileObserved() {
+        viewModel.standings.observeForever(mock())
+
+        viewModel.setLeagueId(100)
+        viewModel.setLeagueId(200)
+
+        verify(repository).loadStandings(100)
+        verify(repository).loadStandings(200)
     }
 
     @Test
@@ -63,8 +87,10 @@ class StandingsViewModelTest {
 
         val leagueTwoValue = Resource.success(emptyList<Standing>())
         leagueTwo.value = leagueTwoValue
+        verify(observer, never()).onChanged(any())
         viewModel.setLeagueId(2)
         verify(observer).onChanged(leagueTwoValue)
+        verifyNoMoreInteractions(observer)
     }
 
 }
