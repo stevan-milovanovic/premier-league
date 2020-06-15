@@ -43,6 +43,7 @@ data class Player(
 ) {
     // does not show up in the response but set in post processing.
     var teamId: Int = -1
+    var imageUrl: String? = null
 
     data class Shots(
         val total: Int,

@@ -32,12 +32,11 @@
 
             <TextView
                 style="@style/PlayerTextView"
-                android:drawableTop="@{viewModel.playerOne.id == player.id ? @drawable/ic_account_circle_primary_dark_64dp : viewModel.playerTwo.id == player.id ? @drawable/ic_account_circle_primary_dark_64dp : @drawable/ic_account_circle_accent_64dp}"
                 android:text="@{player.name}"
                 android:textColor="@{viewModel.playerOne.id == player.id ? @android:color/white : viewModel.playerTwo.id == player.id ? @android:color/white : @android:color/tertiary_text_dark}"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:drawableTop="@drawable/ic_account_circle_accent_64dp"
+                app:drawableTopUrl="@{player.imageUrl}"
                 tools:text="Roberto Firmino"
                 tools:textColor="@android:color/tertiary_text_dark" />
 

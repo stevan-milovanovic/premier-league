@@ -38,7 +38,7 @@ abstract class PlayerDao {
         }
     }
 
-    @Query("SELECT id, teamId, name, age, position, nationality FROM player WHERE teamId = :teamId")
+    @Query("SELECT id, teamId, name, age, position, nationality, imageUrl FROM player WHERE teamId = :teamId")
     protected abstract fun getForTeam(teamId: Int): LiveData<List<Player>>
 
 }
