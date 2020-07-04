@@ -1,10 +1,10 @@
 package com.smobile.premierleague
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.preference.PreferenceManager
 import com.smobile.premierleague.Const.LANGUAGE
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -17,9 +17,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setLanguage()
         super.onCreate(savedInstanceState)
+        setLanguage()
         setContentView(R.layout.activity_main)
         val navigationController = findNavController(R.id.fragment_container)
         NavigationUI.setupActionBarWithNavController(this, navigationController)
@@ -33,13 +36,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     private fun setLanguage() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val dm = resources.displayMetrics
         val conf = resources.configuration
-        val lang = sharedPreferences.getString(LANGUAGE, null)
-        if (lang == null) {
-            conf.setLocale(Locale.getDefault())
-        } else conf.setLocale(Locale(lang))
+
+        sharedPreferences.getString(LANGUAGE, null)?.let {
+            conf.setLocale(Locale(it))
+        } ?: conf.setLocale(Locale.getDefault())
 
         resources.updateConfiguration(conf, dm)
     }
