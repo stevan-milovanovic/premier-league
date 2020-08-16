@@ -16,6 +16,7 @@ https://github.com/android/architecture-components-samples/tree/master/GithubBro
 * [Dagger 2][dagger2] for dependency injection
 * [Retrofit][retrofit] for REST api communication
 * [Glide][glide] for image loading
+* [Coroutines][coroutines] for asynchronous programming 
 
 [support-lib]: https://developer.android.com/topic/libraries/support-library/index.html
 [arch]: https://developer.android.com/arch
@@ -23,6 +24,7 @@ https://github.com/android/architecture-components-samples/tree/master/GithubBro
 [dagger2]: https://google.github.io/dagger
 [retrofit]: http://square.github.io/retrofit
 [glide]: https://github.com/bumptech/glide
+[coroutines]: https://developer.android.com/kotlin/coroutines 
 
 License
 --------
