@@ -1,6 +1,5 @@
 package com.smobile.premierleague.ui.team
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -8,40 +7,22 @@ import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
-import com.smobile.premierleague.util.AbsentLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
  * ViewModel for [TeamFragment]
  */
-class TeamViewModel @Inject constructor(playerRepository: PlayerRepository) : ViewModel() {
+class TeamViewModel @Inject constructor(private val playerRepository: PlayerRepository) : ViewModel() {
 
     private val teamId: MutableLiveData<Int> = MutableLiveData()
-    private val playerOneId: MutableLiveData<Int?> = MutableLiveData()
-    private val playerTwoId: MutableLiveData<Int?> = MutableLiveData()
+    val playerOne: MutableLiveData<Player?> = MutableLiveData()
+    val playerTwo: MutableLiveData<Player?> = MutableLiveData()
 
-    val players: LiveData<Resource<List<Player>>> = Transformations
-        .switchMap(teamId) {
-            playerRepository.loadTeam(it, SEASON)
-        }
-
-    val playerOne: LiveData<Player> = Transformations
-        .switchMap(playerOneId) {
-            if (it == null) {
-                AbsentLiveData.create()
-            } else {
-                playerRepository.loadForId(playerId = it)
-            }
-        }
-
-    val playerTwo: LiveData<Player> = Transformations
-        .switchMap(playerTwoId) {
-            if (it == null) {
-                AbsentLiveData.create()
-            } else {
-                playerRepository.loadForId(playerId = it)
-            }
-        }
+    suspend fun loadPlayers(teamId: Int) = withContext(Dispatchers.IO) {
+        playerRepository.loadTeam(teamId, SEASON)
+    }
 
     val selectedPlayers: Pair<Int, Int>?
         get() = playerOne.value?.id?.let { playerOneId ->
@@ -58,51 +39,46 @@ class TeamViewModel @Inject constructor(playerRepository: PlayerRepository) : Vi
         this.teamId.value = teamId
     }
 
-    fun clearSelection() {
-        playerOneId.value = null
-        playerTwoId.value = null
-    }
-
-    fun choosePlayer(playerId: Int?): Boolean {
-        if (selectPlayer(playerId)) {
+    fun choosePlayer(player: Player?): Boolean {
+        if (selectPlayer(player)) {
             return true
         }
 
-        if (deselectPlayer(playerId)) {
+        if (deselectPlayer(player)) {
             return true
         }
 
         return false
     }
 
-    private fun selectPlayer(playerId: Int?): Boolean {
+    private fun selectPlayer(player: Player?): Boolean {
         if (playerOne.value == null) {
-            if (playerTwoId.value == playerId) {
+            if (playerTwo.value == player) {
                 return false
             }
-            playerOneId.value = playerId
+            playerOne.value = player
             return true
         }
 
         if (playerTwo.value == null) {
-            if (playerOneId.value == playerId) {
+            if (playerOne.value == player) {
                 return false
             }
-            playerTwoId.value = playerId
+            playerTwo.value = player
             return true
         }
 
         return false
     }
 
-    private fun deselectPlayer(playerId: Int?): Boolean {
-        if (playerOne.value?.id == playerId) {
-            playerOneId.value = null
+    private fun deselectPlayer(player: Player?): Boolean {
+        if (playerOne.value == player) {
+            playerOne.value = null
             return true
         }
 
-        if (playerTwo.value?.id == playerId) {
-            playerTwoId.value = null
+        if (playerTwo.value == player) {
+            playerTwo.value = null
             return true
         }
 

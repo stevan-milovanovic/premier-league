@@ -1,7 +1,6 @@
 package com.smobile.premierleague.repository
 
 import androidx.lifecycle.LiveData
-import com.smobile.premierleague.AppExecutors
 import com.smobile.premierleague.Const
 import com.smobile.premierleague.Const.LEAGUE
 import com.smobile.premierleague.api.LeagueService
@@ -19,37 +18,60 @@ import javax.inject.Singleton
 @Singleton
 @OpenForTesting
 class PlayerRepository @Inject constructor(
-    private val appExecutors: AppExecutors,
     private val playerDao: PlayerDao,
     private val leagueService: LeagueService
 ) {
-    fun loadTeam(teamId: Int, season: String): LiveData<Resource<List<Player>>> {
-        return object : NetworkBoundResource<List<Player>, TeamNetworkResponse>(appExecutors) {
-            override fun saveCallResult(item: TeamNetworkResponse) {
-                item.api.players.forEach {
+    suspend fun loadTeam(teamId: Int, season: String): LiveData<Resource<List<Player>>> {
+        return object : NetworkBoundResourceCoroutines<List<Player>, TeamNetworkResponse>() {
+            override suspend fun createCall() = leagueService.getTeam(teamId, season)
+
+            override fun shouldFetch(databaseResult: List<Player>?) =
+                databaseResult == null || databaseResult.isEmpty()
+
+            override suspend fun loadFromDb() = playerDao.loadOrdered(teamId)
+
+            override suspend fun saveCallResults(result: List<Player>) {
+                result.forEach {
                     it.teamId = teamId
                     it.imageUrl = Const.API_PLAYER_URL.replace("{id}", it.id.toString())
                 }
-                playerDao.insert(item.api.players)
+                playerDao.insert(result)
             }
 
-            override fun shouldFetch(data: List<Player>?) = data == null || data.isEmpty()
+            override fun processResponse(response: TeamNetworkResponse) = response.api.players
 
-            override fun loadFromDb() = playerDao.loadOrdered(teamId)
-
-            override fun createCall() = leagueService.getTeam(teamId, season)
-        }.asLiveData()
+        }.build().asLiveData()
     }
 
-    fun loadHeadToHeadStatistics(
+    suspend fun loadHeadToHeadStatistics(
         playerOneId: Int,
         playerTwoId: Int,
         teamId: Int,
         season: String
     ): LiveData<Resource<List<Player>>> {
-        return object : NetworkBoundResource<List<Player>, TeamNetworkResponse>(appExecutors) {
-            override fun saveCallResult(item: TeamNetworkResponse) {
-                item.api.players.forEach {
+        return object : NetworkBoundResourceCoroutines<List<Player>, TeamNetworkResponse>() {
+            override suspend fun createCall() = leagueService.getTeamStatistics(teamId, season)
+
+            override fun shouldFetch(databaseResult: List<Player>?): Boolean {
+                if (databaseResult == null || databaseResult.isEmpty()) {
+                    return true
+                }
+                return databaseResult.any {
+                    it.shots == null &&
+                            it.goals == null &&
+                            it.passes == null &&
+                            it.tackles == null &&
+                            it.duels == null &&
+                            it.dribbles == null &&
+                            it.fouls == null
+                }
+            }
+
+            override suspend fun loadFromDb() =
+                playerDao.getHeadToHeadDetails(teamId, playerOneId, playerTwoId)
+
+            override suspend fun saveCallResults(result: List<Player>) {
+                result.forEach {
                     if (it.id == playerOneId) {
                         if (it.league == LEAGUE) {
                             it.teamId = teamId
@@ -67,26 +89,8 @@ class PlayerRepository @Inject constructor(
                 }
             }
 
-            override fun shouldFetch(data: List<Player>?): Boolean {
-                if (data == null || data.isEmpty()) {
-                    return true
-                }
-                return data.any {
-                    it.shots == null && it.goals == null && it.passes == null && it.tackles == null &&
-                            it.duels == null && it.dribbles == null && it.fouls == null
-                }
-            }
-
-            override fun loadFromDb(): LiveData<List<Player>> {
-                return playerDao.getHeadToHeadDetails(teamId, playerOneId, playerTwoId)
-            }
-
-            override fun createCall() = leagueService.getTeamStatistics(teamId, season)
-        }.asLiveData()
-    }
-
-    fun loadForId(playerId: Int): LiveData<Player> {
-        return playerDao.getById(playerId)
+            override fun processResponse(response: TeamNetworkResponse) = response.api.players
+        }.build().asLiveData()
     }
 
 }

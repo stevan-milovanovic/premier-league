@@ -24,7 +24,6 @@ class TeamViewModelTest {
 
     @Test
     fun testInitialState() {
-        assertNotNull(viewModel.players)
         assertNotNull(viewModel.playerOne)
         assertNotNull(viewModel.playerTwo)
     }
@@ -38,7 +37,6 @@ class TeamViewModelTest {
     @Test
     fun testSetTeamId() {
         viewModel.setTeamId(1)
-        viewModel.players.observeForever(mock())
         verify(repository).loadTeam(1, Const.SEASON)
     }
 

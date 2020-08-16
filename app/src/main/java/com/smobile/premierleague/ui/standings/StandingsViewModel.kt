@@ -1,33 +1,19 @@
 package com.smobile.premierleague.ui.standings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.smobile.premierleague.model.Standing
-import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.StandingsRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
  * ViewModel for [StandingsFragment]
  */
-class StandingsViewModel @Inject constructor(standingsRepository: StandingsRepository) :
+class StandingsViewModel @Inject constructor(private val standingsRepository: StandingsRepository) :
     ViewModel() {
 
-    private val leagueId: MutableLiveData<Int> = MutableLiveData()
-
-    val standings: LiveData<Resource<List<Standing>>> = Transformations
-        .switchMap(leagueId) {
-            standingsRepository.loadStandings(it)
-        }
-
-    fun setLeagueId(leagueId: Int) {
-        if (this.leagueId.value == leagueId) {
-            return
-        }
-
-        this.leagueId.value = leagueId
+    suspend fun getStandings(leagueId: Int) = withContext(Dispatchers.IO) {
+        standingsRepository.loadStandings(leagueId)
     }
 
 }

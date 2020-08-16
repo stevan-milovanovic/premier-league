@@ -6,8 +6,8 @@ import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -71,11 +71,6 @@ class StandingsFragment : Fragment(), Injectable {
         this.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        standingsViewModel.setLeagueId(PREMIER_LEAGUE_ID)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
@@ -89,9 +84,12 @@ class StandingsFragment : Fragment(), Injectable {
     }
 
     private fun setupDataObserver() {
-        standingsViewModel.standings.observe(viewLifecycleOwner, Observer { result ->
-            adapter.submitList(result?.data)
-        })
+        lifecycleScope.launchWhenResumed {
+            standingsViewModel.getStandings(PREMIER_LEAGUE_ID)
+                .observe(viewLifecycleOwner, { result ->
+                    adapter.submitList(result?.data)
+                })
+        }
     }
 
 }

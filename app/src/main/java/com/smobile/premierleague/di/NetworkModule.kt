@@ -1,8 +1,8 @@
 package com.smobile.premierleague.di
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.smobile.premierleague.Const
 import com.smobile.premierleague.api.LeagueService
-import com.smobile.premierleague.util.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.Headers
@@ -20,11 +20,11 @@ class NetworkModule {
     @Provides
     fun provideInterceptor() = Interceptor { chain ->
         var request: Request = chain.request()
-        val headers: Headers =
-            request.headers().newBuilder()
-                .add(Const.API_KEY_HEADER, Const.API_KEY_HEADER_VALUE)
-                .add(Const.API_HOST_HEADER, Const.API_HOST_HEADER_VALUE)
-                .build()
+        val headers: Headers = request.headers
+            .newBuilder()
+            .add(Const.API_KEY_HEADER, Const.API_KEY_HEADER_VALUE)
+            .add(Const.API_HOST_HEADER, Const.API_HOST_HEADER_VALUE)
+            .build()
         request = request.newBuilder().headers(headers).build()
         chain.proceed(request)
     }
@@ -41,7 +41,7 @@ class NetworkModule {
         return Retrofit.Builder()
             .baseUrl(Const.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
             .create(LeagueService::class.java)

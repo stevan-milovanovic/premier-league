@@ -1,6 +1,5 @@
 package com.smobile.premierleague.api
 
-import androidx.lifecycle.LiveData
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -10,18 +9,20 @@ import retrofit2.http.Path
 interface LeagueService {
 
     @GET("leagueTable/{leagueId}")
-    fun getStandings(@Path("leagueId") leagueId: Int): LiveData<ApiResponse<StandingsNetworkResponse>>
+    suspend fun getStandings(
+        @Path("leagueId") leagueId: Int
+    ): StandingsNetworkResponse
 
     @GET("players/squad/{teamId}/{season}")
-    fun getTeam(
+    suspend fun getTeam(
         @Path("teamId") teamId: Int,
         @Path("season") season: String
-    ): LiveData<ApiResponse<TeamNetworkResponse>>
+    ): TeamNetworkResponse
 
     @GET("players/team/{teamId}/{season}")
-    fun getTeamStatistics(
+    suspend fun getTeamStatistics(
         @Path("teamId") teamId: Int,
         @Path("season") season: String
-    ): LiveData<ApiResponse<TeamNetworkResponse>>
+    ): TeamNetworkResponse
 
 }
