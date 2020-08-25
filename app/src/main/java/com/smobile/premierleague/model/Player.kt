@@ -5,7 +5,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import com.google.gson.annotations.SerializedName
+import com.smobile.premierleague.testing.OpenForTesting
 
+@OpenForTesting
 @Entity(
     indices = [Index("teamId")],
     primaryKeys = ["id", "teamId"],
@@ -50,6 +52,7 @@ data class Player(
         val on: Int
     )
 
+    @OpenForTesting
     data class Goals(
         val total: Int,
         val conceded: Int,

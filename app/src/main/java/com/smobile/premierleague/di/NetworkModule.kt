@@ -1,6 +1,5 @@
 package com.smobile.premierleague.di
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.smobile.premierleague.Const
 import com.smobile.premierleague.api.LeagueService
 import dagger.Module
@@ -41,7 +40,6 @@ class NetworkModule {
         return Retrofit.Builder()
             .baseUrl(Const.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
             .create(LeagueService::class.java)

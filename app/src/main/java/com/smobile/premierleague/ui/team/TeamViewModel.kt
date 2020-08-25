@@ -16,13 +16,10 @@ import javax.inject.Inject
  */
 class TeamViewModel @Inject constructor(private val playerRepository: PlayerRepository) : ViewModel() {
 
-    private val teamId: MutableLiveData<Int> = MutableLiveData()
     val playerOne: MutableLiveData<Player?> = MutableLiveData()
     val playerTwo: MutableLiveData<Player?> = MutableLiveData()
 
-    suspend fun loadPlayers(teamId: Int) = withContext(Dispatchers.IO) {
-        playerRepository.loadTeam(teamId, SEASON)
-    }
+    fun loadPlayers(teamId: Int) = playerRepository.loadTeam(teamId, SEASON)
 
     val selectedPlayers: Pair<Int, Int>?
         get() = playerOne.value?.id?.let { playerOneId ->
@@ -30,14 +27,6 @@ class TeamViewModel @Inject constructor(private val playerRepository: PlayerRepo
                 Pair(playerOneId, playerTwoId)
             }
         }
-
-    fun setTeamId(teamId: Int) {
-        if (this.teamId.value == teamId) {
-            return
-        }
-
-        this.teamId.value = teamId
-    }
 
     fun choosePlayer(player: Player?): Boolean {
         if (selectPlayer(player)) {

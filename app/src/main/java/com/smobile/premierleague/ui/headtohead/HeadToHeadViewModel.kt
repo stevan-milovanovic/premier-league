@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.repository.PlayerRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -17,15 +15,13 @@ class HeadToHeadViewModel @Inject constructor(private val playerRepository: Play
 
     val winnerId = MutableLiveData<Int>()
 
-    suspend fun getPlayers(teamId: Int, playerOneId: Int, playerTwoId: Int) =
-        withContext(Dispatchers.IO) {
-            playerRepository.loadHeadToHeadStatistics(
-                playerOneId,
-                playerTwoId,
-                teamId,
-                SEASON
-            )
-        }
+    fun getPlayers(teamId: Int, playerOneId: Int, playerTwoId: Int) =
+        playerRepository.loadHeadToHeadStatistics(
+            playerOneId,
+            playerTwoId,
+            teamId,
+            SEASON
+        )
 
     fun determineWinnerId(players: List<Player>) {
         winnerId.value = comparePlayers(players)

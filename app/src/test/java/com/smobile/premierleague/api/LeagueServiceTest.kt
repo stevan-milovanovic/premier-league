@@ -1,7 +1,7 @@
 package com.smobile.premierleague.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -9,10 +9,7 @@ import okio.buffer
 import okio.source
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -29,14 +26,12 @@ class LeagueServiceTest {
 
     private lateinit var mockWebServer: MockWebServer
 
-
     @Before
     fun createService() {
         mockWebServer = MockWebServer()
         service = Retrofit.Builder()
-            .baseUrl(mockWebServer.url("/"))
+            .baseUrl(mockWebServer.url(""))
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
             .create(LeagueService::class.java)
     }
@@ -50,10 +45,11 @@ class LeagueServiceTest {
     fun getStandings() {
         enqueueResponse("standings.json")
         runBlocking {
-            val networkResponse = service.getStandingsAsync(10).await()
+            val networkResponse = service.getStandings(10).body()
             val request = mockWebServer.takeRequest()
             assertThat(request.path, CoreMatchers.`is`("/leagueTable/10"))
-            assertThat(networkResponse.api.results, CoreMatchers.`is`(1))
+            assertNotNull(networkResponse)
+            assertThat(networkResponse!!.api.results, CoreMatchers.`is`(1))
 
             val standingsList = networkResponse.api.standings[0]
             assertThat(standingsList.size, CoreMatchers.`is`(20))

@@ -1,14 +1,17 @@
 package com.smobile.premierleague.ui.headtohead
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import com.smobile.premierleague.Const
+import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.repository.PlayerRepository
 import com.smobile.premierleague.testing.mock
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 
 /**
  * Unit test class for [HeadToHeadViewModel]
@@ -24,29 +27,62 @@ class HeadToHeadViewModelTest {
 
     @Test
     fun testInitialState() {
-        assertNotNull(viewModel.players)
-        assertNull(viewModel.players.value)
-
         assertNotNull(viewModel.winnerId)
         assertNull(viewModel.winnerId.value)
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun comparePlayerWithHimself() {
-        viewModel.setParams(1, 1, 10)
+    @Test
+    fun testGetPlayers() {
+        viewModel.getPlayers(1, 200, 300)
+        verify(repository).loadHeadToHeadStatistics(200, 300, 1, Const.SEASON)
     }
 
     @Test
-    fun doNotFetchWithoutObservers() {
-        viewModel.setParams(1, 2, 10)
-        verify(repository, never()).loadHeadToHeadStatistics(1, 2, 10, Const.SEASON)
+    fun testDetermineWinnerIdIfThereAreNoPlayers() {
+        val observer = mock<Observer<Int>>()
+        viewModel.winnerId.observeForever(observer)
+        viewModel.determineWinnerId(listOf())
+        verify(observer).onChanged(0)
     }
 
     @Test
-    fun fetchPlayersWhenWinnerIdObserved() {
-        viewModel.setParams(1, 2, 10)
-        viewModel.winnerId.observeForever(mock())
-        verify(repository).loadHeadToHeadStatistics(1, 2, 10, Const.SEASON)
+    fun testDetermineWinnerIdWhenPlayersDoNotHaveGoals() {
+        val playerOne: Player = mock()
+        val playerTwo: Player = mock()
+        val observer = mock<Observer<Int>>()
+        viewModel.winnerId.observeForever(observer)
+        viewModel.determineWinnerId(listOf(playerOne, playerTwo))
+        verify(observer).onChanged(0)
+    }
+
+    @Test
+    fun testDetermineWinnerIdWhenFirstPlayerHasMoreGoals() {
+        val playerOne: Player = mock()
+        `when`(playerOne.id).thenReturn(1)
+        val goals: Player.Goals = mock()
+        `when`(goals.total).thenReturn(1)
+        `when`(playerOne.goals).thenReturn(goals)
+        val playerTwo: Player = mock()
+        `when`(playerTwo.goals).thenReturn(mock())
+        val observer = mock<Observer<Int>>()
+        viewModel.winnerId.observeForever(observer)
+        viewModel.determineWinnerId(listOf(playerOne, playerTwo))
+        verify(observer).onChanged(1)
+    }
+
+    @Test
+    fun testDetermineWinnerIdWhenSecondPlayerHasMoreGoals() {
+        val playerOne: Player = mock()
+        `when`(playerOne.goals).thenReturn(mock())
+        val playerTwo: Player = mock()
+        `when`(playerTwo.id).thenReturn(2)
+        val goals: Player.Goals = mock()
+        `when`(goals.total).thenReturn(1)
+        `when`(playerTwo.goals).thenReturn(goals)
+        val observer = mock<Observer<Int>>()
+        viewModel.winnerId.observeForever(observer)
+        viewModel.determineWinnerId(listOf(playerOne, playerTwo))
+        verify(observer).onChanged(2)
     }
 
 }

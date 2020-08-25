@@ -12,8 +12,6 @@ import javax.inject.Inject
 class StandingsViewModel @Inject constructor(private val standingsRepository: StandingsRepository) :
     ViewModel() {
 
-    suspend fun getStandings(leagueId: Int) = withContext(Dispatchers.IO) {
-        standingsRepository.loadStandings(leagueId)
-    }
+    fun getStandings(leagueId: Int) = standingsRepository.loadStandings(leagueId)
 
 }

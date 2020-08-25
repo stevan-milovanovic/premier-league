@@ -5,6 +5,7 @@ import com.smobile.premierleague.Const
 import com.smobile.premierleague.repository.PlayerRepository
 import com.smobile.premierleague.testing.mock
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.never
@@ -25,18 +26,14 @@ class TeamViewModelTest {
     @Test
     fun testInitialState() {
         assertNotNull(viewModel.playerOne)
+        assertNull(viewModel.playerOne.value)
         assertNotNull(viewModel.playerTwo)
+        assertNull(viewModel.playerTwo.value)
     }
 
     @Test
-    fun doNotFetchWithoutObservers() {
-        viewModel.setTeamId(1)
-        verify(repository, never()).loadTeam(1, Const.SEASON)
-    }
-
-    @Test
-    fun testSetTeamId() {
-        viewModel.setTeamId(1)
+    fun testLoadPlayers() {
+        viewModel.loadPlayers(1)
         verify(repository).loadTeam(1, Const.SEASON)
     }
 

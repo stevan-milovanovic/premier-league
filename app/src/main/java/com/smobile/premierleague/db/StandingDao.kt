@@ -1,5 +1,6 @@
 package com.smobile.premierleague.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,9 +17,9 @@ interface StandingDao {
     suspend fun insert(standings: List<Standing>)
 
     @Query("SELECT * FROM standing ORDER BY rank ASC")
-    suspend fun getAll(): List<Standing>
+    fun getAll(): LiveData<List<Standing>>
 
     @Query("SELECT * FROM standing WHERE id = :id")
-    suspend fun getById(id: String): Standing
+    fun getById(id: String): LiveData<Standing>
 
 }

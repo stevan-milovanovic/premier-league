@@ -8,9 +8,7 @@ import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.smobile.premierleague.AppExecutors
@@ -66,16 +64,14 @@ class HeadToHeadFragment : Fragment(), Injectable {
     }
 
     private fun setupDataObserver() {
-        lifecycleScope.launchWhenResumed {
-            val params = HeadToHeadFragmentArgs.fromBundle(requireArguments())
-            headToHeadViewModel.getPlayers(params.teamId, params.playerOneId, params.playerTwoId)
-                .observe(viewLifecycleOwner, { result ->
-                    adapter.submitList(result.data)
-                    result.data?.let {
-                        headToHeadViewModel.determineWinnerId(it)
-                    }
-                })
-        }
+        val params = HeadToHeadFragmentArgs.fromBundle(requireArguments())
+        headToHeadViewModel.getPlayers(params.teamId, params.playerOneId, params.playerTwoId)
+            .observe(viewLifecycleOwner, { result ->
+                adapter.submitList(result.data)
+                result.data?.let {
+                    headToHeadViewModel.determineWinnerId(it)
+                }
+            })
     }
 
 }

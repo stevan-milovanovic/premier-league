@@ -51,14 +51,13 @@ class StandingsFragment : Fragment(), Injectable {
             false,
             dataBindingComponent
         )
-
+        setupDataObserver()
         setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupDataObserver()
         val adapter = StandingsListAdapter(
             dataBindingComponent = dataBindingComponent,
             appExecutors = appExecutors
@@ -84,12 +83,10 @@ class StandingsFragment : Fragment(), Injectable {
     }
 
     private fun setupDataObserver() {
-        lifecycleScope.launchWhenResumed {
             standingsViewModel.getStandings(PREMIER_LEAGUE_ID)
                 .observe(viewLifecycleOwner, { result ->
                     adapter.submitList(result?.data)
                 })
-        }
     }
 
 }
