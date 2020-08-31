@@ -4,7 +4,7 @@ orbs:
  android: circleci/android@0.2.0
 
 jobs:
-  build:
+  unit-test:
     executor: android/android
         
     steps:
