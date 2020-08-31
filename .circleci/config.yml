@@ -6,15 +6,20 @@ orbs:
 jobs:
   build:
     executor: android/android
-
     steps:
       - checkout
       - run:
           command: ./gradlew build
   unit-test:
     executor: android/android
-        
     steps:
       - checkout
       - run:
           command: ./gradlew test
+
+workflows:
+  version: 1
+  build_and_test:
+    jobs:
+      - build
+      - unit-test
