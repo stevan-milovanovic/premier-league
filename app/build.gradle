@@ -8,7 +8,7 @@ apply plugin: 'kotlin-allopen'
 
 allOpen {
     // allows mocking for classes w/o directly opening them for release builds
-    annotation 'com.smobile.premierleague.testing.OpenClass'
+    annotation 'com.smobile.premierleague.testing.OpenForTesting'
 }
 android {
     compileSdkVersion 30
