@@ -1,4 +1,4 @@
-package com.smobile.premierleague.testing
+package com.smobile.premierleague.util
 
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito

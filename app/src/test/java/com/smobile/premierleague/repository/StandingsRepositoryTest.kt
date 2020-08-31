@@ -10,7 +10,7 @@ import com.smobile.premierleague.db.LeagueDb
 import com.smobile.premierleague.db.StandingDao
 import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
-import com.smobile.premierleague.testing.mock
+import com.smobile.premierleague.util.mock
 import com.smobile.premierleague.util.AbsentLiveData
 import com.smobile.premierleague.util.ApiUtil.successCall
 import com.smobile.premierleague.util.InstantAppExecutors

@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.StandingsRepository
-import com.smobile.premierleague.testing.mock
+import com.smobile.premierleague.util.mock
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

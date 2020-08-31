@@ -3,7 +3,7 @@ package com.smobile.premierleague.ui.settings
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.smobile.premierleague.Const
-import com.smobile.premierleague.testing.mock
+import com.smobile.premierleague.util.mock
 import com.smobile.premierleague.util.Language
 import org.junit.Assert.*
 import org.junit.Rule

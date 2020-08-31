@@ -3,7 +3,7 @@ package com.smobile.premierleague.ui.headtohead
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.smobile.premierleague.Const
 import com.smobile.premierleague.repository.PlayerRepository
-import com.smobile.premierleague.testing.mock
+import com.smobile.premierleague.util.mock
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Rule

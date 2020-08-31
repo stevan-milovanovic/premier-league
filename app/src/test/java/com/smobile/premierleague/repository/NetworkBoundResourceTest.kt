@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.smobile.premierleague.api.ApiResponse
 import com.smobile.premierleague.model.base.Resource
-import com.smobile.premierleague.testing.mock
+import com.smobile.premierleague.util.mock
 import com.smobile.premierleague.util.ApiUtil
 import com.smobile.premierleague.util.CountingAppExecutors
 import com.smobile.premierleague.util.InstantAppExecutors
