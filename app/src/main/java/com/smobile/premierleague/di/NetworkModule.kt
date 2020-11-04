@@ -21,7 +21,7 @@ class NetworkModule {
     fun provideInterceptor() = Interceptor { chain ->
         var request: Request = chain.request()
         val headers: Headers =
-            request.headers().newBuilder()
+            request.headers.newBuilder()
                 .add(Const.API_KEY_HEADER, Const.API_KEY_HEADER_VALUE)
                 .add(Const.API_HOST_HEADER, Const.API_HOST_HEADER_VALUE)
                 .build()
