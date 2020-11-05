@@ -18,6 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
 import org.mockito.Mockito.*
 
 /**
@@ -36,7 +37,7 @@ class PlayerRepositoryTest {
 
     @Before
     fun init() {
-        val db: LeagueDb = mock()
+        val db: LeagueDb = mock(LeagueDb::class.java)
         `when`(db.playerDao()).thenReturn(dao)
         `when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
         repository = PlayerRepository(InstantAppExecutors(), dao, service)

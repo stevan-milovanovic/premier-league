@@ -1,7 +1,9 @@
 package com.smobile.premierleague.api
 
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Test
@@ -30,7 +32,7 @@ class ApiResponseTest {
     fun testCreateError() {
         val errorResponse = Response.error<String>(
             400,
-            ResponseBody.create(MediaType.parse("application/txt"), "content")
+            "content".toResponseBody("application/txt".toMediaTypeOrNull())
         )
         val (errorMessage) = ApiResponse.create<String>(errorResponse) as ApiErrorResponse<String>
         MatcherAssert.assertThat(errorMessage, CoreMatchers.`is`("content"))

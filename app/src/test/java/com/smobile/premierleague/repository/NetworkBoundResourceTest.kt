@@ -11,7 +11,9 @@ import com.smobile.premierleague.util.ApiUtil
 import com.smobile.premierleague.util.CountingAppExecutors
 import com.smobile.premierleague.util.InstantAppExecutors
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Before
@@ -110,7 +112,7 @@ class NetworkBoundResourceTest(private val useRealExecutors: Boolean) {
         handleSaveCallResult = {
             saved.set(true)
         }
-        val body = ResponseBody.create(MediaType.parse("text/html"), "error")
+        val body = "error".toResponseBody("text/html".toMediaTypeOrNull())
         handleCreateCall = { ApiUtil.createCall(Response.error(500, body)) }
 
         val observer: Observer<Resource<Example>> = mock()
@@ -152,7 +154,7 @@ class NetworkBoundResourceTest(private val useRealExecutors: Boolean) {
         val saved = AtomicBoolean(false)
         handleShouldMatch = { value -> value === dbValue }
         handleSaveCallResult = { saved.set(true) }
-        val body = ResponseBody.create(MediaType.parse("text/html"), "error")
+        val body = "error".toResponseBody("text/html".toMediaTypeOrNull())
         val apiResponseLiveData = MutableLiveData<ApiResponse<Example>>()
         handleCreateCall = { apiResponseLiveData }
 

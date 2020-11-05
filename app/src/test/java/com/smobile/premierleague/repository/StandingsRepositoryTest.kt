@@ -27,8 +27,8 @@ import org.mockito.Mockito.*
 class StandingsRepositoryTest {
 
     private lateinit var repository: StandingsRepository
-    private val dao: StandingDao = mock()
-    private val service: LeagueService = mock()
+    private val dao: StandingDao = mock(StandingDao::class.java)
+    private val service: LeagueService = mock(LeagueService::class.java)
 
     @Rule
     @JvmField
@@ -36,7 +36,7 @@ class StandingsRepositoryTest {
 
     @Before
     fun init() {
-        val db: LeagueDb = mock()
+        val db: LeagueDb = mock(LeagueDb::class.java)
         `when`(db.standingDao()).thenReturn(dao)
         `when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
         repository = StandingsRepository(InstantAppExecutors(), dao, service)
@@ -54,7 +54,7 @@ class StandingsRepositoryTest {
         verify(dao).getAll()
         verifyNoMoreInteractions(service)
 
-        val observer: Observer<Resource<List<Standing>>> = mock()
+        val observer = mock<Observer<Resource<List<Standing>>>>()
         data.observeForever(observer)
         verifyNoMoreInteractions(service)
         verify(observer).onChanged(Resource.loading(null))
@@ -75,7 +75,7 @@ class StandingsRepositoryTest {
         val apiResponse = MutableLiveData<ApiResponse<StandingsNetworkResponse>>()
         `when`(service.getStandings(100)).thenReturn(apiResponse)
 
-        val observer: Observer<Resource<List<Standing>>> = mock()
+        val observer = mock<Observer<Resource<List<Standing>>>>()
         repository.loadStandings(100).observeForever(observer)
         verify(observer).onChanged(Resource.loading(null))
 

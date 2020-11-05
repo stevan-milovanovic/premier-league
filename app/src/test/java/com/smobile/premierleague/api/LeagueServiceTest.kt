@@ -6,6 +6,8 @@ import com.smobile.premierleague.util.LiveDataTestUtil.getValue
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.Okio
+import okio.buffer
+import okio.source
 import org.hamcrest.CoreMatchers
 import org.junit.After
 import org.junit.Assert.assertThat
@@ -87,7 +89,7 @@ class LeagueServiceTest {
 
     private fun enqueueResponse(fileName: String, headers: Map<String, String> = emptyMap()) {
         javaClass.classLoader?.getResourceAsStream("api-response/$fileName")?.let {
-            val source = Okio.buffer(Okio.source(it))
+            val source = it.source().buffer()
             val mockResponse = MockResponse()
             for ((key, value) in headers) {
                 mockResponse.addHeader(key, value)
