@@ -25,7 +25,7 @@ import javax.inject.Inject
 class StandingsFragment : Fragment(), Injectable {
 
     companion object {
-        private const val PREMIER_LEAGUE_ID = 524
+        private const val PREMIER_LEAGUE_ID = 2790
     }
 
     @Inject

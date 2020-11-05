@@ -2,7 +2,7 @@ package com.smobile.premierleague
 
 object Const {
 
-    const val SEASON = "2019-2020"
+    const val SEASON = "2020-2021"
     const val LEAGUE = "Premier League"
 
     const val DB_NAME = "league.db"
