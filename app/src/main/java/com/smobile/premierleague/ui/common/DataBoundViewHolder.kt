@@ -42,8 +42,7 @@ class DataBoundViewHolder<out T : ViewDataBinding> constructor(val binding: T) :
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return lifecycleRegistry
-    }
+    override val lifecycle: Lifecycle
+        get() = lifecycleRegistry
 
 }

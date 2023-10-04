@@ -2,8 +2,8 @@ package com.smobile.premierleague.ui.team
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
@@ -20,28 +20,25 @@ class TeamViewModel @Inject constructor(playerRepository: PlayerRepository) : Vi
     private val playerOneId: MutableLiveData<Int?> = MutableLiveData()
     private val playerTwoId: MutableLiveData<Int?> = MutableLiveData()
 
-    val players: LiveData<Resource<List<Player>>> = Transformations
-        .switchMap(teamId) {
-            playerRepository.loadTeam(it, SEASON)
-        }
+    val players: LiveData<Resource<List<Player>>> = teamId.switchMap {
+        playerRepository.loadTeam(it, SEASON)
+    }
 
-    val playerOne: LiveData<Player> = Transformations
-        .switchMap(playerOneId) {
-            if (it == null) {
-                AbsentLiveData.create()
-            } else {
-                playerRepository.loadForId(playerId = it)
-            }
+    val playerOne: LiveData<Player> = playerOneId.switchMap {
+        if (it == null) {
+            AbsentLiveData.create()
+        } else {
+            playerRepository.loadForId(playerId = it)
         }
+    }
 
-    val playerTwo: LiveData<Player> = Transformations
-        .switchMap(playerTwoId) {
-            if (it == null) {
-                AbsentLiveData.create()
-            } else {
-                playerRepository.loadForId(playerId = it)
-            }
+    val playerTwo: LiveData<Player> = playerTwoId.switchMap {
+        if (it == null) {
+            AbsentLiveData.create()
+        } else {
+            playerRepository.loadForId(playerId = it)
         }
+    }
 
     val selectedPlayers: Pair<Int, Int>?
         get() = playerOne.value?.id?.let { playerOneId ->

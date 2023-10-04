@@ -1,7 +1,7 @@
 package com.smobile.premierleague.db
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -28,7 +28,7 @@ abstract class PlayerDao {
     abstract fun getHeadToHeadDetails(teamId: Int, playerOneId: Int, playerTwoId: Int): LiveData<List<Player>>
 
     fun loadOrdered(teamId: Int): LiveData<List<Player>> {
-        return Transformations.map(getForTeam(teamId)) { players ->
+        return getForTeam(teamId).map { players ->
             players.sortedWith(Comparator { player1, player2 ->
                 val pos1 = PlayerPosition.mapToOrder(player1.position)
                 val pos2 = PlayerPosition.mapToOrder(player2.position)

@@ -21,10 +21,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     override fun attachBaseContext(newBase: Context?) {
         val configuration = Configuration()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(newBase)
-        sharedPreferences.getString(LANGUAGE, null)?.let {
-            configuration.setLocale(Locale(it))
-        } ?: configuration.setLocale(Locale.getDefault())
+        newBase?.let {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(newBase)
+            sharedPreferences.getString(LANGUAGE, null)?.let {
+                configuration.setLocale(Locale(it))
+            } ?: configuration.setLocale(Locale.getDefault())
+        }
 
         //Workaround for platform bug on SDK < 26
         configuration.fontScale = 0f

@@ -2,8 +2,8 @@ package com.smobile.premierleague.ui.standings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.StandingsRepository
@@ -17,10 +17,9 @@ class StandingsViewModel @Inject constructor(standingsRepository: StandingsRepos
 
     private val leagueId: MutableLiveData<Int> = MutableLiveData()
 
-    val standings: LiveData<Resource<List<Standing>>> = Transformations
-        .switchMap(leagueId) {
-            standingsRepository.loadStandings(it)
-        }
+    val standings: LiveData<Resource<List<Standing>>> = leagueId.switchMap {
+        standingsRepository.loadStandings(it)
+    }
 
     fun setLeagueId(leagueId: Int) {
         if (this.leagueId.value == leagueId) {

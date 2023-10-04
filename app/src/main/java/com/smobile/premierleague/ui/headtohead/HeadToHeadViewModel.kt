@@ -2,8 +2,8 @@ package com.smobile.premierleague.ui.headtohead
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
@@ -20,8 +20,8 @@ class HeadToHeadViewModel @Inject constructor(playerRepository: PlayerRepository
     private val playerOneId: MutableLiveData<Int> = MutableLiveData()
     private val playerTwoId: MutableLiveData<Int> = MutableLiveData()
 
-    val players: LiveData<Resource<List<Player>>> = Transformations
-        .switchMap(teamId) { teamId ->
+    val players: LiveData<Resource<List<Player>>> =
+        teamId.switchMap { teamId ->
             playerOneId.value?.let { playerOneId ->
                 playerTwoId.value?.let { playerTwoId ->
                     if (playerOneId != 0 && playerTwoId != 0) {
@@ -52,12 +52,11 @@ class HeadToHeadViewModel @Inject constructor(playerRepository: PlayerRepository
         this.teamId.value = teamId
     }
 
-    val winnerId: LiveData<Int> = Transformations
-        .switchMap(players) { resource ->
-            resource.data?.let { players ->
-                comparePlayers(players)
-            }
+    val winnerId: LiveData<Int> = players.switchMap { resource ->
+        resource.data?.let { players ->
+            comparePlayers(players)
         }
+    }
 
     private fun comparePlayers(players: List<Player>): LiveData<Int> {
         if (players.size != 2) return AbsentLiveData.create()

@@ -24,7 +24,7 @@ data class Player(
     val name: String,
     val position: String?,
     val age: Int,
-    val nationality: String,
+    val nationality: String?,
     val league: String?,
     @field:Embedded(prefix = "shots_")
     val shots: Shots?,
