@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.smobile.premierleague.R
 import com.smobile.premierleague.binding.FragmentDataBindingComponent
@@ -31,10 +30,16 @@ class SettingsFragment : Fragment(), Injectable {
 
     private val settingsViewModel: SettingsViewModel by viewModels { viewModelFactory }
 
+    override fun onResume() {
+        super.onResume()
+        setupDataObserver()
+        settingsViewModel.loadLanguage()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_settings,
@@ -48,12 +53,6 @@ class SettingsFragment : Fragment(), Injectable {
         }
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setupDataObserver()
-        settingsViewModel.loadLanguage()
     }
 
     private fun showLanguagesDialog() {
@@ -72,9 +71,9 @@ class SettingsFragment : Fragment(), Injectable {
     }
 
     private fun setupDataObserver() {
-        settingsViewModel.language.observe(viewLifecycleOwner, Observer { language ->
+        settingsViewModel.language.observe(viewLifecycleOwner) { language ->
             binding.language = getString(language.titleId)
-        })
+        }
     }
 
 }
