@@ -2,7 +2,6 @@ package com.smobile.premierleague.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,15 +25,13 @@ class SettingsFragment : Fragment(), Injectable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                val uiState by settingsViewModel.uiState.observeAsState()
-                uiState?.let {
-                    SettingsScreen(it) { language ->
-                        settingsViewModel.setLanguage(language)
-                        this@SettingsFragment.activity?.recreate()
-                    }
+    ) = ComposeView(requireContext()).apply {
+        setContent {
+            val uiState by settingsViewModel.uiState.observeAsState()
+            uiState?.let {
+                SettingsScreen(it) { language ->
+                    settingsViewModel.setLanguage(language)
+                    this@SettingsFragment.activity?.recreate()
                 }
             }
         }
