@@ -31,13 +31,13 @@ import androidx.compose.ui.window.Dialog
 import com.smobile.premierleague.R
 import com.smobile.premierleague.util.Language
 
-data class SettingsScreenState(
+data class SettingsScreenUiState(
     val language: Language
 )
 
 @Composable
 fun SettingsScreen(
-    uiState: SettingsScreenState,
+    uiState: SettingsScreenUiState,
     onLanguageSelected: (Language) -> Unit
 ) {
     val isDialogShown = remember { mutableStateOf(false) }
@@ -57,7 +57,7 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsOptions(
-    uiState: SettingsScreenState,
+    uiState: SettingsScreenUiState,
     onChooseLanguageOptionSelected: () -> Unit
 ) {
     Scaffold { innerPadding ->
@@ -93,7 +93,7 @@ private fun SettingsOptions(
 
 @Composable
 private fun LanguagesDialog(
-    uiState: SettingsScreenState,
+    uiState: SettingsScreenUiState,
     setIsDialogShown: (Boolean) -> Unit,
     onLanguageSelected: (Language) -> Unit
 ) {
@@ -130,7 +130,7 @@ private fun LanguagesDialog(
 
 @Composable
 private fun LanguageRadioButton(
-    uiState: SettingsScreenState,
+    uiState: SettingsScreenUiState,
     language: Language,
     onLanguageSelected: (Language) -> Unit
 ) {
@@ -154,13 +154,13 @@ private fun LanguageRadioButton(
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    val uiState = SettingsScreenState(Language.ENGLISH)
+    val uiState = SettingsScreenUiState(Language.ENGLISH)
     SettingsScreen(uiState) { _ -> }
 }
 
 @Preview
 @Composable
 private fun LanguagesDialogPreview() {
-    val uiState = SettingsScreenState(Language.ENGLISH)
+    val uiState = SettingsScreenUiState(Language.ENGLISH)
     LanguagesDialog(uiState, {}, { _ -> })
 }

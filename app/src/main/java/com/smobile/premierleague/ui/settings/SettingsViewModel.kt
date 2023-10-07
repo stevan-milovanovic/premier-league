@@ -18,13 +18,13 @@ class SettingsViewModel @Inject constructor(
     private val editor: SharedPreferences.Editor
 ) : ViewModel() {
 
-    private val _uiState: MutableLiveData<SettingsScreenState> = MutableLiveData()
+    private val _uiState: MutableLiveData<SettingsScreenUiState> = MutableLiveData()
 
-    val uiState: LiveData<SettingsScreenState>
+    val uiState: LiveData<SettingsScreenUiState>
         get() = _uiState
 
     init {
-        _uiState.value = SettingsScreenState(loadLanguage())
+        _uiState.value = SettingsScreenUiState(loadLanguage())
     }
 
     private fun loadLanguage(): Language {
@@ -40,7 +40,7 @@ class SettingsViewModel @Inject constructor(
             return
         }
         editor.putString(LANGUAGE, language.locale.language).apply()
-        _uiState.value = SettingsScreenState(language)
+        _uiState.value = SettingsScreenUiState(language)
     }
 
 }
