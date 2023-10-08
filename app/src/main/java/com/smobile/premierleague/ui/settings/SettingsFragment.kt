@@ -1,20 +1,16 @@
 package com.smobile.premierleague.ui.settings
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.DataBindingUtil
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.smobile.premierleague.R
-import com.smobile.premierleague.binding.FragmentDataBindingComponent
-import com.smobile.premierleague.databinding.FragmentSettingsBinding
 import com.smobile.premierleague.di.Injectable
-import com.smobile.premierleague.util.autoCleared
 import javax.inject.Inject
 
 /**
@@ -25,54 +21,25 @@ class SettingsFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    private var binding by autoCleared<FragmentSettingsBinding>()
-
     private val settingsViewModel: SettingsViewModel by viewModels { viewModelFactory }
-
-    override fun onResume() {
-        super.onResume()
-        setupDataObserver()
-        settingsViewModel.loadLanguage()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_settings,
-            container,
-            false,
-            dataBindingComponent
-        )
-
-        binding.languageContainer.setOnClickListener {
-            showLanguagesDialog()
-        }
-
-        return binding.root
-    }
-
-    private fun showLanguagesDialog() {
-        val languages = settingsViewModel.availableLanguages
-        val values = languages.map { getString(it.titleId) }.toTypedArray()
-        val selectedLanguage = settingsViewModel.selectedLanguageIndex
-
-        AlertDialog.Builder(activity)
-            .setTitle(getString(R.string.choose_language))
-            .setSingleChoiceItems(values, selectedLanguage) { dialog, item ->
-                settingsViewModel.setLanguage(languages[item])
-                activity?.recreate()
-                dialog.dismiss()
+        return ComposeView(requireContext()).apply {
+            setContent {
+                val uiState by settingsViewModel.uiState.observeAsState()
+                uiState?.let {
+                    SettingsScreen(
+                        uiState = it,
+                        onLanguageSelected = { language ->
+                            settingsViewModel.setLanguage(language)
+                            this@SettingsFragment.activity?.recreate()
+                        }
+                    )
+                }
             }
-            .show()
-    }
-
-    private fun setupDataObserver() {
-        settingsViewModel.language.observe(viewLifecycleOwner) { language ->
-            binding.language = getString(language.titleId)
         }
     }
 
