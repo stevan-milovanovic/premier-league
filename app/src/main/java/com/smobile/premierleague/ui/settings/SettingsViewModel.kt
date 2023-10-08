@@ -23,18 +23,16 @@ class SettingsViewModel @Inject constructor(
     val language: LiveData<Language>
         get() = _language
 
-    val availableLanguages: Array<Language>
-        get() = Language.values()
+    init {
+        _language.value = loadLanguage()
+    }
 
-    val selectedLanguageIndex: Int
-        get() = availableLanguages.toList().find { it == language.value }?.ordinal ?: 0
-
-    fun loadLanguage() {
+    fun loadLanguage(): Language {
+        var language = Language.ENGLISH
         sharedPreferences.getString(LANGUAGE, Language.ENGLISH.locale.language)?.let {
-            _language.value = fromLanguageCode(it)
-        } ?: run {
-            _language.value = Language.ENGLISH
+            language = fromLanguageCode(it)
         }
+        return language
     }
 
     fun setLanguage(language: Language) {
@@ -43,7 +41,7 @@ class SettingsViewModel @Inject constructor(
         }
 
         editor.putString(LANGUAGE, language.locale.language).apply()
-        loadLanguage()
+        _language.value = language
     }
 
 }

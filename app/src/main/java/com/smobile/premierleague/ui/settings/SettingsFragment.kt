@@ -14,6 +14,7 @@ import com.smobile.premierleague.R
 import com.smobile.premierleague.binding.FragmentDataBindingComponent
 import com.smobile.premierleague.databinding.FragmentSettingsBinding
 import com.smobile.premierleague.di.Injectable
+import com.smobile.premierleague.util.Language
 import com.smobile.premierleague.util.autoCleared
 import javax.inject.Inject
 
@@ -30,12 +31,6 @@ class SettingsFragment : Fragment(), Injectable {
 
     private val settingsViewModel: SettingsViewModel by viewModels { viewModelFactory }
 
-    override fun onResume() {
-        super.onResume()
-        setupDataObserver()
-        settingsViewModel.loadLanguage()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,18 +46,19 @@ class SettingsFragment : Fragment(), Injectable {
         binding.languageContainer.setOnClickListener {
             showLanguagesDialog()
         }
-
+        setupDataObserver()
         return binding.root
     }
 
     private fun showLanguagesDialog() {
-        val languages = settingsViewModel.availableLanguages
-        val values = languages.map { getString(it.titleId) }.toTypedArray()
-        val selectedLanguage = settingsViewModel.selectedLanguageIndex
+        val languages = Language.values()
+        val titles = languages.map { getString(it.titleId) }.toTypedArray()
+        val language = settingsViewModel.language.value
+        val selectedLanguage = languages.find { it == language }?.ordinal ?: 0
 
         AlertDialog.Builder(activity)
             .setTitle(getString(R.string.choose_language))
-            .setSingleChoiceItems(values, selectedLanguage) { dialog, item ->
+            .setSingleChoiceItems(titles, selectedLanguage) { dialog, item ->
                 settingsViewModel.setLanguage(languages[item])
                 activity?.recreate()
                 dialog.dismiss()
