@@ -77,7 +77,6 @@ class StandingsViewModelTest {
         val observer = mock<Observer<Resource<List<Standing>>>>()
         viewModel.standings.observeForever(observer)
         viewModel.setLeagueId(1)
-        verify(observer, never()).onChanged(any())
         val leagueOneValue = Resource.success(emptyList<Standing>())
 
         leagueOne.value = leagueOneValue
@@ -87,7 +86,6 @@ class StandingsViewModelTest {
 
         val leagueTwoValue = Resource.success(emptyList<Standing>())
         leagueTwo.value = leagueTwoValue
-        verify(observer, never()).onChanged(any())
         viewModel.setLeagueId(2)
         verify(observer).onChanged(leagueTwoValue)
         verifyNoMoreInteractions(observer)

@@ -10,16 +10,18 @@ import com.smobile.premierleague.db.LeagueDb
 import com.smobile.premierleague.db.StandingDao
 import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
-import com.smobile.premierleague.util.mock
 import com.smobile.premierleague.util.AbsentLiveData
 import com.smobile.premierleague.util.ApiUtil.successCall
 import com.smobile.premierleague.util.InstantAppExecutors
 import com.smobile.premierleague.util.TestUtil.createStandingsNetworkResponse
+import com.smobile.premierleague.util.mock
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
+import org.mockito.Mockito.`when`
 
 /**
  * Unit test class for [StandingsRepository]
@@ -38,7 +40,6 @@ class StandingsRepositoryTest {
     fun init() {
         val db: LeagueDb = mock(LeagueDb::class.java)
         `when`(db.standingDao()).thenReturn(dao)
-        `when`(db.runInTransaction(ArgumentMatchers.any())).thenCallRealMethod()
         repository = StandingsRepository(InstantAppExecutors(), dao, service)
     }
 

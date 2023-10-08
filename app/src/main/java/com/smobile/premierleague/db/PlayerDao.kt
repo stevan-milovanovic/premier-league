@@ -25,20 +25,21 @@ abstract class PlayerDao {
     abstract fun getById(playerId: Int): LiveData<Player>
 
     @Query("SELECT * FROM player WHERE id = :playerOneId AND teamId = :teamId OR id = :playerTwoId AND teamId = :teamId")
-    abstract fun getHeadToHeadDetails(teamId: Int, playerOneId: Int, playerTwoId: Int): LiveData<List<Player>>
+    abstract fun getHeadToHeadDetails(
+        teamId: Int,
+        playerOneId: Int,
+        playerTwoId: Int
+    ): LiveData<List<Player>>
 
-    fun loadOrdered(teamId: Int): LiveData<List<Player>> {
-        return getForTeam(teamId).map { players ->
-            players.sortedWith(Comparator { player1, player2 ->
-                val pos1 = PlayerPosition.mapToOrder(player1.position)
-                val pos2 = PlayerPosition.mapToOrder(player2.position)
-
-                return@Comparator if (pos1 == pos2) player1.id - player2.id else pos1 - pos2
-            })
-        }
+    fun loadOrdered(teamId: Int): LiveData<List<Player>> = getForTeam(teamId).map { players ->
+        players.sortedWith(Comparator { player1, player2 ->
+            val pos1 = PlayerPosition.mapToOrder(player1.position)
+            val pos2 = PlayerPosition.mapToOrder(player2.position)
+            return@Comparator if (pos1 == pos2) player1.id - player2.id else pos1 - pos2
+        })
     }
 
     @Query("SELECT id, teamId, name, age, position, nationality, imageUrl FROM player WHERE teamId = :teamId")
-    protected abstract fun getForTeam(teamId: Int): LiveData<List<Player>>
+    abstract fun getForTeam(teamId: Int): LiveData<List<Player>>
 
 }

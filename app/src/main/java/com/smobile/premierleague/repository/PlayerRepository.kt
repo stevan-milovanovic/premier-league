@@ -33,7 +33,7 @@ class PlayerRepository @Inject constructor(
                 playerDao.insert(item.api.players)
             }
 
-            override fun shouldFetch(data: List<Player>?) = data == null || data.isEmpty()
+            override fun shouldFetch(data: List<Player>?) = data.isNullOrEmpty()
 
             override fun loadFromDb() = playerDao.loadOrdered(teamId)
 
