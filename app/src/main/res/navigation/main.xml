@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/standingsFragment"
         android:name="com.smobile.premierleague.ui.standings.StandingsFragment"
-        android:label="@string/premier_league"
-        tools:layout="@layout/fragment_standings">
+        android:label="@string/premier_league">
         <action
             android:id="@+id/showTeam"
             app:destination="@id/teamFragment" />

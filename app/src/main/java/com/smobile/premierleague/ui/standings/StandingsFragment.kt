@@ -1,22 +1,26 @@
 package com.smobile.premierleague.ui.standings
 
 import android.os.Bundle
-import android.view.*
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.DataBindingUtil
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.ComposeView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.smobile.premierleague.AppExecutors
 import com.smobile.premierleague.R
-import com.smobile.premierleague.binding.FragmentDataBindingComponent
-import com.smobile.premierleague.databinding.FragmentStandingsBinding
 import com.smobile.premierleague.di.Injectable
-import com.smobile.premierleague.util.autoCleared
 import javax.inject.Inject
 
 /**
@@ -34,41 +38,28 @@ class StandingsFragment : Fragment(), Injectable {
     @Inject
     lateinit var appExecutors: AppExecutors
 
-    private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    private var binding by autoCleared<FragmentStandingsBinding>()
-    private var adapter by autoCleared<StandingsListAdapter>()
-
     private val standingsViewModel: StandingsViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_standings,
-            container,
-            false,
-            dataBindingComponent
-        )
-
-        setHasOptionsMenu(true)
-        return binding.root
+    ) = ComposeView(requireContext()).apply {
+        setContent {
+            val standings by standingsViewModel.standings.observeAsState()
+            standings?.let { resource ->
+                if (resource.data != null) {
+                    StandingsScreen(standings = resource.data) { teamId ->
+                        showSelectedTeam(teamId)
+                    }
+                }
+            }
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setupDataObserver()
-        val adapter = StandingsListAdapter(
-            dataBindingComponent = dataBindingComponent,
-            appExecutors = appExecutors
-        ) { standing ->
-            findNavController().navigate(StandingsFragmentDirections.showTeam(standing.id))
-        }
-        val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.standingsList.addItemDecoration(dividerItemDecoration)
-        binding.standingsList.adapter = adapter
-        this.adapter = adapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupMenu()
     }
 
     override fun onResume() {
@@ -76,22 +67,23 @@ class StandingsFragment : Fragment(), Injectable {
         standingsViewModel.setLeagueId(PREMIER_LEAGUE_ID)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
+    private fun showSelectedTeam(teamId: Int) {
+        findNavController().navigate(StandingsFragmentDirections.showTeam(teamId))
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(
-            item,
-            findNavController()
-        ) || super.onOptionsItemSelected(item)
-    }
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.main_menu, menu)
+            }
 
-    private fun setupDataObserver() {
-        standingsViewModel.standings.observe(viewLifecycleOwner, Observer { result ->
-            adapter.submitList(result?.data)
-        })
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return NavigationUI.onNavDestinationSelected(
+                    menuItem,
+                    findNavController()
+                )
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
 }
