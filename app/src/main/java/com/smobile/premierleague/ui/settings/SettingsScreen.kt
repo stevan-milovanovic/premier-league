@@ -71,7 +71,7 @@ fun SettingsScreen(
 }
 
 @Composable
-fun LanguagesDialog(
+private fun LanguagesDialog(
     language: Language,
     onDismissRequest: () -> Unit,
     onLanguageSelected: (Language) -> Unit
@@ -86,11 +86,16 @@ fun LanguagesDialog(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    Text(text = stringResource(id = R.string.choose_language))
+                    Text(
+                        text = stringResource(id = R.string.choose_language),
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    )
                     Language.values().forEach {
                         LanguageRadioButton(
-                            optionLanguage = it,
-                            currentLanguage = language,
+                            isSelected = language == it,
+                            language = it,
                             onLanguageSelected = {
                                 onDismissRequest()
                                 onLanguageSelected(it)
@@ -104,9 +109,9 @@ fun LanguagesDialog(
 }
 
 @Composable
-fun LanguageRadioButton(
-    currentLanguage: Language,
-    optionLanguage: Language,
+private fun LanguageRadioButton(
+    isSelected: Boolean,
+    language: Language,
     onLanguageSelected: () -> Unit
 ) {
     Row(
@@ -115,11 +120,11 @@ fun LanguageRadioButton(
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
-            selected = currentLanguage == optionLanguage,
+            selected = isSelected,
             onClick = onLanguageSelected
         )
         Text(
-            text = stringResource(id = optionLanguage.titleId),
+            text = stringResource(id = language.titleId),
             style = MaterialTheme.typography.titleMedium
         )
     }
@@ -127,12 +132,12 @@ fun LanguageRadioButton(
 
 @Preview
 @Composable
-fun SettingsScreenPreview() {
+private fun SettingsScreenPreview() {
     SettingsScreen(Language.SERBIAN) {}
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true, showBackground = true, locale = "sr")
 @Composable
-fun LanguageDialogPreview() {
+private fun LanguageDialogPreview() {
     LanguagesDialog(Language.SERBIAN, {}) {}
 }
