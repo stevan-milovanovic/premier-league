@@ -2,9 +2,11 @@
 
 This repository serves as Android project architecture showcase.
 
-<img src="premier-league-table.png"  width="250" height="561">
-<img src="team-players.png"  width="250" height="561">
-<img src="head-to-head.png"  width="250" height="561">
+<p float="left">
+<img src="premier-league-table.png"  width="270" height="606">
+<img src="team-players.png"  width="270" height="606">
+<img src="head-to-head.png"  width="270" height="606">
+</p>
 
 Repository is based on the official Android Github Browser Sample with Android Architecture Components:
 https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample
