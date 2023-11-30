@@ -23,9 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
@@ -128,6 +130,7 @@ private fun StandingRow(
                 model = teamLogoUrl,
                 contentDescription = stringResource(id = R.string.team_logo),
                 modifier = logoModifier.size(dimensionResource(id = R.dimen.logo_size)),
+                placeholder = painterResource(id = R.drawable.football)
             )
         } else {
             Text(
@@ -174,13 +177,28 @@ private fun StandingCategory(
     )
 }
 
-@Preview(locale = "sr")
+@Preview(showSystemUi = true, device = Devices.NEXUS_5)
 @Composable
 private fun StandingsScreenPreview() {
+    val statistics1 = Standing.TeamStatistic(6, 3, 1, 2)
+    val statistics2 = Standing.TeamStatistic(6, 2, 1, 3)
     StandingsScreen(
         listOf(
-            Standing(1, 1, "Arsenal", "arsenal.com", Standing.TeamStatistic(6, 3, 1, 2), 10),
-            Standing(2, 2, "Chelsea", "Chelsea.com", Standing.TeamStatistic(6, 2, 1, 3), 7)
+            Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
+            Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
+        )
+    ) {}
+}
+
+@Preview(showSystemUi = true, locale = "sr", device = Devices.PIXEL)
+@Composable
+private fun StandingsScreenPreviewSerbianLocale() {
+    val statistics1 = Standing.TeamStatistic(6, 3, 1, 2)
+    val statistics2 = Standing.TeamStatistic(6, 2, 1, 3)
+    StandingsScreen(
+        listOf(
+            Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
+            Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
         )
     ) {}
 }
