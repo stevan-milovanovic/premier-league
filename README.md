@@ -19,12 +19,19 @@ https://github.com/android/architecture-components-samples/tree/master/GithubBro
 * [Retrofit][retrofit] for REST api communication
 * [Glide][glide] for image loading
 
+### Most recent updates
+- [Jetpack Compose UI][compose]
+- [Coil][coil] for image loading in composables
+
 [support-lib]: https://developer.android.com/topic/libraries/support-library/index.html
 [arch]: https://developer.android.com/arch
 [data-binding]: https://developer.android.com/topic/libraries/data-binding/index.html
 [dagger2]: https://google.github.io/dagger
 [retrofit]: http://square.github.io/retrofit
 [glide]: https://github.com/bumptech/glide
+[compose]: https://developer.android.com/jetpack/compose
+[glide]: https://github.com/bumptech/glide
+[coil]: https://coil-kt.github.io/coil/compose
 
 License
 --------
