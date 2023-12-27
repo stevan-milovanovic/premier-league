@@ -1,0 +1,9 @@
+easylauncher {
+    defaultFlavorNaming true
+
+    buildTypes {
+        debug {
+            filters = redRibbonFilter("DEV")
+        }
+    }
+}
