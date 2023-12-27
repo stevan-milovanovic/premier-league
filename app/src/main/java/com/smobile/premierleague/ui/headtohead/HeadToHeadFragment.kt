@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.smobile.premierleague.AppExecutors
 import com.smobile.premierleague.di.Injectable
 import javax.inject.Inject
 
@@ -21,9 +20,6 @@ class HeadToHeadFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
-    lateinit var appExecutors: AppExecutors
 
     private val headToHeadViewModel: HeadToHeadViewModel by viewModels { viewModelFactory }
 

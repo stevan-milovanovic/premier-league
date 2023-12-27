@@ -2,8 +2,7 @@ package com.smobile.premierleague.util
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.LifecycleEventObserver
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -17,12 +16,13 @@ class AutoClearedValue<T : Any>(val fragment: Fragment) : ReadWriteProperty<Frag
     private var _value: T? = null
 
     init {
-        fragment.lifecycle.addObserver(object : LifecycleObserver {
-            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-            fun onDestroy() {
-                _value = null
+        val lifecycleEventObserver = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_DESTROY -> _value = null
+                else -> {}
             }
-        })
+        }
+        fragment.lifecycle.addObserver(lifecycleEventObserver)
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
