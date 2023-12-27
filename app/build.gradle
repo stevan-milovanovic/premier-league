@@ -1,15 +1,21 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 
-apply plugin: 'androidx.navigation.safeargs'
-apply plugin: 'kotlin-allopen'
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-allopen'
+    id 'com.starter.easylauncher'
+}
+
+apply from: "easy_launcher.gradle"
 
 allOpen {
     // allows mocking for classes w/o directly opening them for release builds
     annotation 'com.smobile.premierleague.testing.OpenForTesting'
 }
 android {
+    namespace = "com.smobile.premierleague"
     defaultConfig {
         applicationId "com.smobile.premierleague"
         minSdkVersion 21
@@ -23,9 +29,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            //Debuggable, will get a default ribbon in the launcher icon
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     buildFeatures {
@@ -82,7 +92,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
     //Dagger
-    def dagger_version = "2.48"
+    def dagger_version = "2.49"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
@@ -91,12 +101,12 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     //Room
-    def room_version = "2.5.2"
+    def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     //Gson
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
 
     //Retrofit
     def retrofit_version = "2.9.0"
@@ -108,7 +118,7 @@ dependencies {
     implementation "com.squareup.okhttp3:mockwebserver:4.7.2"
 
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //Coil
     implementation 'io.coil-kt:coil-compose:2.4.0'
