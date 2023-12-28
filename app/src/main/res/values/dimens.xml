@@ -6,6 +6,7 @@
     <dimen name="small_padding">4dp</dimen>
     <dimen name="medium_padding">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_size">64dp</dimen>
     <dimen name="settings_title">18sp</dimen>
     <dimen name="settings_subtitle">14sp</dimen>
     <dimen name="settings_padding">16dp</dimen>

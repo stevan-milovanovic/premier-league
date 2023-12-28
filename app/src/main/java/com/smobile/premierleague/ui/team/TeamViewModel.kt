@@ -55,21 +55,12 @@ class TeamViewModel @Inject constructor(playerRepository: PlayerRepository) : Vi
         this.teamId.value = teamId
     }
 
-    fun clearSelection() {
-        playerOneId.value = null
-        playerTwoId.value = null
-    }
-
-    fun choosePlayer(playerId: Int?): Boolean {
+    fun choosePlayer(playerId: Int?) {
         if (selectPlayer(playerId)) {
-            return true
+            return
         }
 
-        if (deselectPlayer(playerId)) {
-            return true
-        }
-
-        return false
+        deselectPlayer(playerId)
     }
 
     private fun selectPlayer(playerId: Int?): Boolean {

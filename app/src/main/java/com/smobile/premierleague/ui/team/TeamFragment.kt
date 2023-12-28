@@ -2,24 +2,15 @@ package com.smobile.premierleague.ui.team
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.DataBindingUtil
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.smobile.premierleague.AppExecutors
-import com.smobile.premierleague.R
-import com.smobile.premierleague.binding.FragmentDataBindingComponent
-import com.smobile.premierleague.databinding.FragmentTeamBinding
 import com.smobile.premierleague.di.Injectable
-import com.smobile.premierleague.util.autoCleared
 import javax.inject.Inject
 
 /**
@@ -30,62 +21,39 @@ class TeamFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var appExecutors: AppExecutors
-
-    private var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    private var binding by autoCleared<FragmentTeamBinding>()
-    private var adapter by autoCleared<TeamListAdapter>()
-
     private val teamViewModel: TeamViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_team,
-            container,
-            false,
-            dataBindingComponent
-        )
-        binding.playersList.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setupDataObserver()
-        val adapter = TeamListAdapter(
-            dataBindingComponent,
-            appExecutors,
-            teamViewModel
-        ) { player ->
-            if (!teamViewModel.choosePlayer(player.id)) {
-                view?.let {
-                    Snackbar.make(
-                        it, getString(R.string.players_already_selected),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-        binding.playersList.adapter = adapter
-        this.adapter = adapter
-
-        binding.compareFab.setOnClickListener {
-            teamViewModel.selectedPlayers?.let { players ->
-                val params = TeamFragmentArgs.fromBundle(requireArguments())
-                findNavController().navigate(
-                    TeamFragmentDirections.showHeadToHead(
-                        players.first,
-                        players.second,
-                        params.teamId
-                    )
+    ) = ComposeView(requireContext()).apply {
+        setContent {
+            val playersResource by teamViewModel.players.observeAsState()
+            val playerOne by teamViewModel.playerOne.observeAsState()
+            val playerTwo by teamViewModel.playerTwo.observeAsState()
+            playersResource?.let { resource ->
+                TeamScreen(
+                    players = resource.data ?: emptyList(),
+                    playerOne = playerOne,
+                    playerTwo = playerTwo,
+                    onPlayerSelected = { teamViewModel.choosePlayer(it.id) },
+                    onComparePlayersClicked = ::navigateToHeadToHeadScreen
                 )
             }
+        }
+    }
+
+    private fun navigateToHeadToHeadScreen() {
+        teamViewModel.selectedPlayers?.let { players ->
+            val params = TeamFragmentArgs.fromBundle(requireArguments())
+            findNavController().navigate(
+                TeamFragmentDirections.showHeadToHead(
+                    players.first,
+                    players.second,
+                    params.teamId
+                )
+            )
         }
     }
 
@@ -93,34 +61,6 @@ class TeamFragment : Fragment(), Injectable {
         super.onResume()
         val params = TeamFragmentArgs.fromBundle(requireArguments())
         teamViewModel.setTeamId(params.teamId)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        adapter.setLifecycleDestroyed()
-    }
-
-    private fun setupDataObserver() {
-        teamViewModel.players.observe(viewLifecycleOwner, Observer { result ->
-            updateFabVisibility()
-            adapter.submitList(result.data)
-        })
-
-        teamViewModel.playerOne.observe(viewLifecycleOwner, Observer {
-            updateFabVisibility()
-        })
-
-        teamViewModel.playerTwo.observe(viewLifecycleOwner, Observer {
-            updateFabVisibility()
-        })
-    }
-
-    private fun updateFabVisibility() {
-        teamViewModel.selectedPlayers?.let {
-            binding.compareFab.show()
-        } ?: run {
-            binding.compareFab.hide()
-        }
     }
 
 }
