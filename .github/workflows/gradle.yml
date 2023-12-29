@@ -32,13 +32,9 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
-  
-  unit tests:
-    stage: test
-    script:
-      - ./gradlew testDebugUnitTest
-    artifacts:
-      when: always
-      reports:
-        junit:
-          - ./**/build/test-results/testDebugUnitTest/TEST-*.xml
+
+    - name: Android Github Action
+      # You may pin to the exact commit or the version.
+      # uses: vukan-markovic/Github-Android-Action@c02d4964929a1f88ec1e72041055264bcd8b92e7
+      uses: vukan-markovic/Github-Android-Action@1.2
+          
