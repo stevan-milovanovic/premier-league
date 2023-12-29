@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     app:startDestination="@id/standingsFragment">
 
@@ -16,8 +15,7 @@
     <fragment
         android:id="@+id/teamFragment"
         android:name="com.smobile.premierleague.ui.team.TeamFragment"
-        android:label="@string/team_players"
-        tools:layout="@layout/fragment_team">
+        android:label="@string/team_players">
         <argument
             android:name="teamId"
             app:argType="integer" />
@@ -28,8 +26,7 @@
     <fragment
         android:id="@+id/headToHeadFragment"
         android:name="com.smobile.premierleague.ui.headtohead.HeadToHeadFragment"
-        android:label="@string/head_to_head"
-        tools:layout="@layout/fragment_head_to_head">
+        android:label="@string/head_to_head">
         <argument
             android:name="playerOneId"
             app:argType="integer" />
