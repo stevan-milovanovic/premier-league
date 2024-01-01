@@ -1,8 +1,6 @@
 package com.smobile.premierleague.api
 
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert

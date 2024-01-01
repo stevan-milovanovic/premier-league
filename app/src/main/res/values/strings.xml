@@ -16,13 +16,11 @@
     <string name="won">W</string>
     <string name="position">Pos</string>
     <string name="team_players">Team Players</string>
-    <string name="player">Player</string>
     <string name="compare_players">Compare Players</string>
     <string name="head_to_head">Head To Head</string>
     <string name="players_already_selected">Players have already been selected, deselect the player first.</string>
     <string name="settings">Settings</string>
     <string name="language">Language</string>
-    <string name="change_the_language_in_the_application">Change the language in the application</string>
     <string name="choose_language">Choose language</string>
     <string name="english">English</string>
     <string name="serbian">Serbian</string>

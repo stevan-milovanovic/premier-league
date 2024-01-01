@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RoomWarnings
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.PlayerPosition
 
@@ -21,6 +22,7 @@ abstract class PlayerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(player: Player)
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT id, teamId, name, age, position, nationality FROM player WHERE id = :playerId")
     abstract fun getById(playerId: Int): LiveData<Player>
 
@@ -39,6 +41,7 @@ abstract class PlayerDao {
         })
     }
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT id, teamId, name, age, position, nationality, imageUrl FROM player WHERE teamId = :teamId")
     abstract fun getForTeam(teamId: Int): LiveData<List<Player>>
 
