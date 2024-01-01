@@ -58,7 +58,10 @@ fun PlayerCard(
                     .padding(dimensionResource(id = R.dimen.logo_padding))
                     .size(dimensionResource(id = R.dimen.logo_size))
                     .clip(CircleShape),
-                placeholder = painterResource(id = R.drawable.ic_account_circle_background_64dp)
+                placeholder = painterResource(
+                    id = if (selected) R.drawable.ic_account_circle_white_64dp
+                    else R.drawable.ic_account_circle_background_64dp
+                )
             )
             Text(
                 text = player.name,
@@ -120,7 +123,7 @@ private fun textColor(selected: Boolean): Color =
 @Preview
 @Composable
 fun PlayerCardWithOverviewStatistics() {
-    PlayerCard(player = previewPlayer, selected = false)
+    PlayerCard(player = previewPlayer, selected = true)
 }
 
 @Preview

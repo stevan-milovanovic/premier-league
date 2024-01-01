@@ -68,7 +68,7 @@ class PlayerRepository @Inject constructor(
             }
 
             override fun shouldFetch(data: List<Player>?): Boolean {
-                if (data == null || data.isEmpty()) {
+                if (data.isNullOrEmpty()) {
                     return true
                 }
                 return data.any {

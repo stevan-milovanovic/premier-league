@@ -27,7 +27,7 @@ class SettingsViewModel @Inject constructor(
         _language.value = loadLanguage()
     }
 
-    fun loadLanguage(): Language {
+    private fun loadLanguage(): Language {
         var language = Language.ENGLISH
         sharedPreferences.getString(LANGUAGE, Language.ENGLISH.locale.language)?.let {
             language = fromLanguageCode(it)

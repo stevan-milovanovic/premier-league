@@ -40,10 +40,6 @@ class CountingAppExecutors(idleCallback: (() -> Unit)? = null) {
         )
     }
 
-    fun taskCount() = synchronized(lock) {
-        taskCount
-    }
-
     fun drainTasks(time: Int, timeUnit: TimeUnit) {
         val end = System.currentTimeMillis() + timeUnit.toMillis(time.toLong())
         while (true) {

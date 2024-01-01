@@ -5,12 +5,11 @@ import com.smobile.premierleague.util.LiveDataCallAdapterFactory
 import com.smobile.premierleague.util.LiveDataTestUtil.getValue
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okio.Okio
 import okio.buffer
 import okio.source
 import org.hamcrest.CoreMatchers
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -92,7 +92,7 @@ private fun LanguagesDialog(
                         modifier = Modifier
                             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     )
-                    Language.values().forEach {
+                    Language.entries.forEach {
                         LanguageRadioButton(
                             isSelected = language == it,
                             language = it,

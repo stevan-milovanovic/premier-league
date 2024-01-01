@@ -6,7 +6,6 @@ import retrofit2.Response
  * Common class used by API responses.
  * @param <T> the type of the response object
 </T> */
-@Suppress("unused") // T is used in extending classes
 sealed class ApiResponse<T> {
     companion object {
         fun <T> create(error: Throwable): ApiErrorResponse<T> {
@@ -35,7 +34,7 @@ sealed class ApiResponse<T> {
 }
 
 /**
- * separate class for HTTP 204 resposes so that we can make ApiSuccessResponse's body non-null.
+ * separate class for HTTP 204 responses so that we can make ApiSuccessResponse's body non-null.
  */
 class ApiEmptyResponse<T> : ApiResponse<T>()
 

@@ -10,9 +10,7 @@ import com.smobile.premierleague.util.mock
 import com.smobile.premierleague.util.ApiUtil
 import com.smobile.premierleague.util.CountingAppExecutors
 import com.smobile.premierleague.util.InstantAppExecutors
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert

@@ -16,13 +16,11 @@
     <string name="won">Pob</string>
     <string name="position">Poz</string>
     <string name="team_players">Igrači tima</string>
-    <string name="player">Igrač</string>
     <string name="compare_players">Uporedi igrače</string>
     <string name="head_to_head">Uporedna statistika</string>
     <string name="players_already_selected">Igrači su već odabrani, prvo poništite izbor.</string>
     <string name="settings">Podešavanja</string>
     <string name="language">Jezik</string>
-    <string name="change_the_language_in_the_application">Promenite jezik aplikacije</string>
     <string name="choose_language">Odaberite jezik</string>
     <string name="english">Engleski</string>
     <string name="serbian">Srpski</string>

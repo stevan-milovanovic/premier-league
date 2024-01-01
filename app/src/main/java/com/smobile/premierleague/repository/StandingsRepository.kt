@@ -29,7 +29,7 @@ class StandingsRepository @Inject constructor(
                 standingDao.insert(item.api.standings[0])
             }
 
-            override fun shouldFetch(data: List<Standing>?) = data == null || data.isEmpty()
+            override fun shouldFetch(data: List<Standing>?) = data.isNullOrEmpty()
 
             override fun loadFromDb() = standingDao.getAll()
 
