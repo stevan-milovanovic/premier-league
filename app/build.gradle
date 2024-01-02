@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs'
     id 'kotlin-allopen'
     id 'com.starter.easylauncher'
+    id 'com.google.dagger.hilt.android'
 }
 
 apply from: "easy_launcher.gradle"
@@ -73,6 +74,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    def nav_version_compose = "2.7.6"
+    implementation "androidx.navigation:navigation-compose:$nav_version_compose"
+
     //Navigation component
     def nav_version = "2.7.6"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -91,14 +95,12 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata"
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
-    //Dagger
-    def dagger_version = "2.49"
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
-    api "com.google.dagger:dagger-android:$dagger_version"
-    api "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    //HILT
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt 'androidx.hilt:hilt-compiler:1.1.0'
 
     //Room
     def room_version = "2.6.1"

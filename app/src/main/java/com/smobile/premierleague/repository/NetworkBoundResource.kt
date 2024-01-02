@@ -83,6 +83,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
                         }
                     }
                 }
+
                 is ApiEmptyResponse -> {
                     appExecutors.mainThread().execute {
                         //reload from disk whatever we had
@@ -91,6 +92,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
                         }
                     }
                 }
+
                 is ApiErrorResponse -> {
                     onFetchFailed()
                     result.addSource(dbSource) { newData ->

@@ -9,7 +9,6 @@ import com.smobile.premierleague.api.TeamNetworkResponse
 import com.smobile.premierleague.db.PlayerDao
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
-import com.smobile.premierleague.testing.OpenForTesting
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +16,6 @@ import javax.inject.Singleton
  * Repository that handles Player instances
  */
 @Singleton
-@OpenForTesting
 class PlayerRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val playerDao: PlayerDao,

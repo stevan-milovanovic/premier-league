@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.smobile.premierleague.Const.LANGUAGE
 import com.smobile.premierleague.util.Language
 import com.smobile.premierleague.util.Language.Companion.fromLanguageCode
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
 /**
  * ViewModel for [SettingsFragment]
  */
+@HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor

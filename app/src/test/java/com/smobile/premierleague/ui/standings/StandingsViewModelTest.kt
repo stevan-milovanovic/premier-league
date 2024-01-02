@@ -7,11 +7,18 @@ import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.StandingsRepository
 import com.smobile.premierleague.util.mock
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.Mockito.*
+import org.mockito.Mockito.never
+import org.mockito.Mockito.reset
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
+import org.mockito.Mockito.`when`
 
 /**
  * Unit test class for [StandingsViewModel]
@@ -23,7 +30,12 @@ class StandingsViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val repository: StandingsRepository = mock()
-    private val viewModel = StandingsViewModel(repository)
+    private lateinit var viewModel: StandingsViewModel
+
+    @Before
+    fun setup() {
+        viewModel = StandingsViewModel(repository)
+    }
 
     @Test
     fun testInitialState() {

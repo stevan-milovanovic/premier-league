@@ -8,25 +8,27 @@ import com.smobile.premierleague.db.PlayerDao
 import com.smobile.premierleague.db.StandingDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class DatabaseModule {
 
-    @Singleton
     @Provides
-    fun provideDb(app: Application): LeagueDb {
-        return Room.databaseBuilder(app, LeagueDb::class.java, Const.DB_NAME)
+    @Singleton
+    fun provideDb(app: Application): LeagueDb =
+        Room.databaseBuilder(app, LeagueDb::class.java, Const.DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
-    }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideStandingDao(db: LeagueDb): StandingDao = db.standingDao()
 
-    @Singleton
     @Provides
+    @Singleton
     fun providesPlayerDao(db: LeagueDb): PlayerDao = db.playerDao()
 
 }
