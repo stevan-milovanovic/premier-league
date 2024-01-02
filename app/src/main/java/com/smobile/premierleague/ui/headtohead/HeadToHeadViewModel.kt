@@ -9,12 +9,16 @@ import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
 import com.smobile.premierleague.util.AbsentLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
- * ViewModel for [HeadToHeadFragment]
+ * ViewModel for [HeadToHeadScreen]
  */
-class HeadToHeadViewModel @Inject constructor(playerRepository: PlayerRepository) : ViewModel() {
+@HiltViewModel
+class HeadToHeadViewModel @Inject constructor(
+    playerRepository: PlayerRepository
+) : ViewModel() {
 
     private val teamId: MutableLiveData<Int> = MutableLiveData()
     private val playerOneId: MutableLiveData<Int> = MutableLiveData()

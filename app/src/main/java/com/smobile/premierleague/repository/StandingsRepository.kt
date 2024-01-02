@@ -7,7 +7,6 @@ import com.smobile.premierleague.api.StandingsNetworkResponse
 import com.smobile.premierleague.db.StandingDao
 import com.smobile.premierleague.model.Standing
 import com.smobile.premierleague.model.base.Resource
-import com.smobile.premierleague.testing.OpenForTesting
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +14,6 @@ import javax.inject.Singleton
  * Repository that handles Standing instances
  */
 @Singleton
-@OpenForTesting
 class StandingsRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val standingDao: StandingDao,

@@ -10,13 +10,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.smobile.premierleague.di.Injectable
 import javax.inject.Inject
 
 /**
  * Fragment for showing application settings
  */
-class SettingsFragment : Fragment(), Injectable {
+class SettingsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

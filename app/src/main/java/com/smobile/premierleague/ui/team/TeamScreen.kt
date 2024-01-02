@@ -1,6 +1,5 @@
 package com.smobile.premierleague.ui.team
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.smobile.premierleague.R
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
+import com.smobile.premierleague.ui.common.clickableWithoutIndication
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -73,7 +73,7 @@ fun TeamScreen(
         ) {
             items(players) { player ->
                 PlayerCard(
-                    modifier = Modifier.clickable {
+                    modifier = Modifier.clickableWithoutIndication {
                         if (playerOne != null && playerTwo != null
                             && player.id != playerOne.id && player.id != playerTwo.id
                         ) {

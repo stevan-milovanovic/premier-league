@@ -2,16 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
-    app:startDestination="@id/standingsFragment">
+    app:startDestination="@id/teamFragment">
 
-    <fragment
-        android:id="@+id/standingsFragment"
-        android:name="com.smobile.premierleague.ui.standings.StandingsFragment"
-        android:label="@string/premier_league">
-        <action
-            android:id="@+id/showTeam"
-            app:destination="@id/teamFragment" />
-    </fragment>
     <fragment
         android:id="@+id/teamFragment"
         android:name="com.smobile.premierleague.ui.team.TeamFragment"

@@ -5,20 +5,23 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 
-@Module(includes = [ViewModelModule::class, NetworkModule::class, DatabaseModule::class])
+@InstallIn(SingletonComponent::class)
+@Module
 class AppModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun getSharedPrefs(app: Application): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(app)
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun getEditor(preferences: SharedPreferences): SharedPreferences.Editor {
         return preferences.edit()
     }
