@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,6 +27,7 @@ import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
 import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 import com.smobile.premierleague.ui.common.clickableWithoutIndication
+import com.smobile.premierleague.ui.theme.PremierLeagueTheme
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -59,7 +59,7 @@ fun TeamScreen(
                 FloatingActionButton(
                     onClick = onComparePlayersClicked,
                     shape = FloatingActionButtonDefaults.largeShape,
-                    containerColor = colorResource(id = R.color.colorAccent),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 ) {
                     Icon(
@@ -107,9 +107,9 @@ fun TeamScreenPreview() {
     val player = Player(
         1,
         "Player",
-        null,
+        "Defender",
         Random.nextInt(18, 35),
-        null,
+        "Serbian",
         null,
         null,
         Player.Goals(
@@ -128,12 +128,14 @@ fun TeamScreenPreview() {
         null
     )
     val players = generateSequence { player }.take(2).toList()
-    TeamScreen(
-        players = players,
-        playerOne = player,
-        playerTwo = player,
-        onPlayerSelected = {},
-        onComparePlayersClicked = {},
-        onBackNavigation = {}
-    )
+    PremierLeagueTheme {
+        TeamScreen(
+            players = players,
+            playerOne = player,
+            playerTwo = player,
+            onPlayerSelected = {},
+            onComparePlayersClicked = {},
+            onBackNavigation = {}
+        )
+    }
 }

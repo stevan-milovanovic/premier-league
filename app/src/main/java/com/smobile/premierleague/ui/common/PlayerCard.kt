@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,9 +38,7 @@ fun PlayerCard(
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.logo_padding)),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(
-                id = if (selected) R.color.colorBackground else android.R.color.white
-            )
+            containerColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Column(
