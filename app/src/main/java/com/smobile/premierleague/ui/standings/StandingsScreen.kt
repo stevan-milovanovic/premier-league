@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,13 +34,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
 import com.smobile.premierleague.model.Standing
+import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 
 @Composable
 fun StandingsScreen(
     standings: List<Standing>,
-    showSelectedTeam: (Int) -> Unit
+    showSelectedTeam: (Int) -> Unit,
+    onSettingsNavigation: () -> Unit
 ) {
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            PremierLeagueTopAppBar(
+                titleResId = R.string.app_name,
+                onTopBarAction = onSettingsNavigation,
+                topBarActionImageVector = Icons.Filled.Settings,
+                topBarActionResId = R.string.settings
+            )
+        }
+    ) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
             HeaderStandingRow()
             Divider(color = colorResource(id = R.color.divider_color))
@@ -182,12 +195,15 @@ private fun StandingCategory(
 private fun StandingsScreenPreview() {
     val statistics1 = Standing.TeamStatistic(6, 3, 1, 2)
     val statistics2 = Standing.TeamStatistic(6, 2, 1, 3)
+    val standings = listOf(
+        Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
+        Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
+    )
     StandingsScreen(
-        listOf(
-            Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
-            Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
-        )
-    ) {}
+        standings = standings,
+        showSelectedTeam = {},
+        onSettingsNavigation = {}
+    )
 }
 
 @Preview(showSystemUi = true, locale = "sr", device = Devices.PIXEL)
@@ -195,10 +211,13 @@ private fun StandingsScreenPreview() {
 private fun StandingsScreenPreviewSerbianLocale() {
     val statistics1 = Standing.TeamStatistic(6, 3, 1, 2)
     val statistics2 = Standing.TeamStatistic(6, 2, 1, 3)
+    val standings = listOf(
+        Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
+        Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
+    )
     StandingsScreen(
-        listOf(
-            Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
-            Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
-        )
-    ) {}
+        standings = standings,
+        showSelectedTeam = {},
+        onSettingsNavigation = {}
+    )
 }

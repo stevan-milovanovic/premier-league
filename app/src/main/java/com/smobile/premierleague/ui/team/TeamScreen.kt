@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.smobile.premierleague.R
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
+import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 import com.smobile.premierleague.ui.common.clickableWithoutIndication
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -36,13 +37,20 @@ fun TeamScreen(
     playerOne: Player?,
     playerTwo: Player?,
     onPlayerSelected: (Player) -> Unit,
-    onComparePlayersClicked: () -> Unit
+    onComparePlayersClicked: () -> Unit,
+    onBackNavigation: () -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
+        topBar = {
+            PremierLeagueTopAppBar(
+                titleResId = R.string.team_players,
+                onBackNavigation = onBackNavigation
+            )
+        },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
@@ -125,6 +133,7 @@ fun TeamScreenPreview() {
         playerOne = player,
         playerTwo = player,
         onPlayerSelected = {},
-        onComparePlayersClicked = {}
+        onComparePlayersClicked = {},
+        onBackNavigation = {}
     )
 }

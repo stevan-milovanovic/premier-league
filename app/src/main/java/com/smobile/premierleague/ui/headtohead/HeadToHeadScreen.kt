@@ -1,32 +1,48 @@
 package com.smobile.premierleague.ui.headtohead
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.smobile.premierleague.R
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
+import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 import kotlin.random.Random
 
 
 @Composable
 fun HeadToHeadScreen(
     players: List<Player>,
-    winnerId: Int
+    winnerId: Int,
+    onBackNavigation: () -> Unit
 ) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(players) { player ->
-            PlayerCard(
-                player = player,
-                selected = player.id == winnerId,
-                overviewMode = false
+    Scaffold(
+        topBar = {
+            PremierLeagueTopAppBar(
+                titleResId = R.string.head_to_head,
+                onBackNavigation = onBackNavigation
             )
+        }
+    ) { contentPadding ->
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
+            items(players) { player ->
+                PlayerCard(
+                    player = player,
+                    selected = player.id == winnerId,
+                    overviewMode = false
+                )
+            }
         }
     }
 }
@@ -58,5 +74,5 @@ private fun HeadToHeadPreview() {
         null
     )
     val players = generateSequence { player }.take(2).toList()
-    HeadToHeadScreen(players = players, winnerId = 2)
+    HeadToHeadScreen(players = players, winnerId = 2, onBackNavigation = {})
 }
