@@ -14,7 +14,7 @@ This repository serves as Android project architecture showcase.
 </p>
 <p float="left">
 <img src="dev-ribbon.png"  width="270" height="606">
-<img src="settings-dark.png"  width="270" height="606">
+<img src="settings.png"  width="270" height="606">
 <img src="settings-dark.png"  width="270" height="606">
 </p>
 
