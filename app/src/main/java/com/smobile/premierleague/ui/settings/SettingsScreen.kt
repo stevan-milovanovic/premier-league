@@ -25,16 +25,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.smobile.premierleague.R
+import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 import com.smobile.premierleague.util.Language
 
 @Composable
 fun SettingsScreen(
     language: Language,
-    onLanguageSelected: (Language) -> Unit
+    onLanguageSelected: (Language) -> Unit,
+    onBackNavigation: () -> Unit
 ) {
     val isDialogShown = remember { mutableStateOf(false) }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            PremierLeagueTopAppBar(
+                titleResId = R.string.settings,
+                onBackNavigation = onBackNavigation
+            )
+        }
+    ) { innerPadding ->
         Column {
             Row(
                 modifier = Modifier
@@ -133,7 +142,7 @@ private fun LanguageRadioButton(
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(Language.SERBIAN) {}
+    SettingsScreen(Language.SERBIAN, {}) {}
 }
 
 @Preview(showSystemUi = true, showBackground = true, locale = "sr")

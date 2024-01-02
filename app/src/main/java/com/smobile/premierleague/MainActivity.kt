@@ -20,6 +20,8 @@ import androidx.preference.PreferenceManager
 import com.smobile.premierleague.Const.LANGUAGE
 import com.smobile.premierleague.ui.headtohead.HeadToHeadScreen
 import com.smobile.premierleague.ui.headtohead.HeadToHeadViewModel
+import com.smobile.premierleague.ui.settings.SettingsScreen
+import com.smobile.premierleague.ui.settings.SettingsViewModel
 import com.smobile.premierleague.ui.standings.StandingsScreen
 import com.smobile.premierleague.ui.standings.StandingsViewModel
 import com.smobile.premierleague.ui.team.TeamScreen
@@ -50,8 +52,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            //TODO: Add App Bar
-            PremierLeagueNavHost(navController)
+            PremierLeagueNavHost(
+                navController = navController
+            )
         }
     }
 
@@ -59,13 +62,16 @@ class MainActivity : ComponentActivity() {
     private fun PremierLeagueNavHost(
         navController: NavHostController
     ) {
-        NavHost(navController = navController, startDestination = STANDINGS_ROUTE) {
+        NavHost(
+            navController = navController,
+            startDestination = STANDINGS_ROUTE
+        ) {
             standingsComposable(navController)
             teamComposable(navController)
-            headToHeadComposable()
+            headToHeadComposable(navController)
+            settingsComposable(navController)
         }
     }
-
 
     private fun NavGraphBuilder.standingsComposable(
         navController: NavHostController
@@ -76,7 +82,8 @@ class MainActivity : ComponentActivity() {
             if (resource.data != null) {
                 StandingsScreen(
                     standings = resource.data,
-                    showSelectedTeam = { teamId -> navigateToTeam(navController, teamId) }
+                    showSelectedTeam = { teamId -> navigateToTeam(navController, teamId) },
+                    onSettingsNavigation = { navController.navigate(SETTINGS_ROUTE) }
                 )
             }
         }
@@ -104,12 +111,15 @@ class MainActivity : ComponentActivity() {
                     val playerOneId = playerOne?.id ?: return@TeamScreen
                     val playerTwoId = playerTwo?.id ?: return@TeamScreen
                     navigateToHeadToHead(navController, playerOneId, playerTwoId, teamId)
-                }
+                },
+                onBackNavigation = { navController.popBackStack() }
             )
         }
     }
 
-    private fun NavGraphBuilder.headToHeadComposable() = composable(
+    private fun NavGraphBuilder.headToHeadComposable(
+        navController: NavHostController
+    ) = composable(
         route = HEAD_TO_HEAD_ROUTE,
         arguments = listOf(
             navArgument(PLAYER_ONE_ID_ARG) { type = NavType.IntType },
@@ -127,7 +137,27 @@ class MainActivity : ComponentActivity() {
         playersResource?.let { resource ->
             HeadToHeadScreen(
                 players = resource.data ?: emptyList(),
-                winnerId = winnerId ?: 0
+                winnerId = winnerId ?: 0,
+                onBackNavigation = { navController.popBackStack() }
+            )
+        }
+    }
+
+    private fun NavGraphBuilder.settingsComposable(
+        navController: NavHostController
+    ) = composable(
+        route = SETTINGS_ROUTE,
+    ) {
+        val settingsViewModel: SettingsViewModel = hiltViewModel()
+        val language by settingsViewModel.language.observeAsState()
+        language?.let {
+            SettingsScreen(
+                language = it,
+                onLanguageSelected = { selectedLanguage ->
+                    settingsViewModel.setLanguage(selectedLanguage)
+                    recreate()
+                },
+                onBackNavigation = { navController.popBackStack() }
             )
         }
     }
@@ -159,6 +189,7 @@ class MainActivity : ComponentActivity() {
         private const val TEAM_ROUTE = "$TEAM/{$TEAM_ID_ARG}"
         private const val HEAD_TO_HEAD_ROUTE =
             "$HEAD_TO_HEAD/{$PLAYER_ONE_ID_ARG}/{$PLAYER_TWO_ID_ARG}/{$TEAM_ID_ARG}"
+        private const val SETTINGS_ROUTE = "settings"
     }
 
 }

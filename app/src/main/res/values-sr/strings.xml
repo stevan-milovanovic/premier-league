@@ -24,4 +24,5 @@
     <string name="choose_language">Odaberite jezik</string>
     <string name="english">Engleski</string>
     <string name="serbian">Srpski</string>
+    <string name="back">Nazad</string>
 </resources>
