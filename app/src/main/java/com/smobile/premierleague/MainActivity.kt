@@ -26,6 +26,7 @@ import com.smobile.premierleague.ui.standings.StandingsScreen
 import com.smobile.premierleague.ui.standings.StandingsViewModel
 import com.smobile.premierleague.ui.team.TeamScreen
 import com.smobile.premierleague.ui.team.TeamViewModel
+import com.smobile.premierleague.ui.theme.PremierLeagueTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -52,9 +53,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            PremierLeagueNavHost(
-                navController = navController
-            )
+            PremierLeagueTheme {
+                PremierLeagueNavHost(
+                    navController = navController
+                )
+            }
         }
     }
 

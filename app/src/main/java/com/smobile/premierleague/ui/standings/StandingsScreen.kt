@@ -45,7 +45,7 @@ fun StandingsScreen(
     Scaffold(
         topBar = {
             PremierLeagueTopAppBar(
-                titleResId = R.string.app_name,
+                titleResId = R.string.premier_league,
                 onTopBarAction = onSettingsNavigation,
                 topBarActionImageVector = Icons.Filled.Settings,
                 topBarActionResId = R.string.settings

@@ -8,29 +8,26 @@ This repository serves as Android project architecture showcase.
 <img src="head-to-head.png"  width="270" height="606">
 </p>
 
-Repository is based on the official Android Github Browser Sample with Android Architecture Components:
-https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample
+Repository was initially based on the official Android Github Browser Sample with Android Architecture Components:
+https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample and it is updated to use latest tech stack in Android ecosystem.
 
 ### Libraries
-* [Android Support Library][support-lib]
 * [Android Architecture Components][arch]
-* [Android Data Binding][data-binding]
-* [Dagger 2][dagger2] for dependency injection
-* [Retrofit][retrofit] for REST api communication
-* [Glide][glide] for image loading
+* [MVVM architectural pattern][mvvm]
+* [Dependency injection with Hilt][hilt]
+* [Jetpack Compose UI][compose]
+* [Material Design 3][material3]
+* [Downloadable Fonts][fonts]
+* [Retrofit][retrofit] for REST API communication
+* [Coil][coil] for image loading
 
-### Most recent updates
-- [Jetpack Compose UI][compose]
-- [Coil][coil] for image loading in composables
-
-[support-lib]: https://developer.android.com/topic/libraries/support-library/index.html
 [arch]: https://developer.android.com/arch
-[data-binding]: https://developer.android.com/topic/libraries/data-binding/index.html
-[dagger2]: https://google.github.io/dagger
-[retrofit]: http://square.github.io/retrofit
-[glide]: https://github.com/bumptech/glide
+[mvvm]: https://developer.android.com/topic/libraries/architecture/viewmodel
+[hilt]: https://developer.android.com/training/dependency-injection/hilt-android
 [compose]: https://developer.android.com/jetpack/compose
-[glide]: https://github.com/bumptech/glide
+[material3]: https://m3.material.io/develop/android/mdc-android
+[fonts]: https://developer.android.com/develop/ui/views/text-and-emoji/downloadable-fonts
+[retrofit]: http://square.github.io/retrofit
 [coil]: https://coil-kt.github.io/coil/compose
 
 License

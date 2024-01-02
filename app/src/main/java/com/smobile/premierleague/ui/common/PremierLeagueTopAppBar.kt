@@ -30,7 +30,10 @@ fun PremierLeagueTopAppBar(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Text(stringResource(id = titleResId))
+            Text(
+                text = stringResource(id = titleResId),
+                style = MaterialTheme.typography.headlineSmall
+            )
         },
         navigationIcon = {
             if (onBackNavigation != null) {

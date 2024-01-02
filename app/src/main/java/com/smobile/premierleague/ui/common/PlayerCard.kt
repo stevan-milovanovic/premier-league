@@ -21,6 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
@@ -66,11 +67,13 @@ fun PlayerCard(
             Text(
                 text = player.name,
                 color = textColor(selected),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
             )
             Text(
                 text = stringResource(id = R.string.age, player.age),
-                color = textColor(selected)
+                color = textColor(selected),
+                textAlign = TextAlign.Center
             )
             if (overviewMode) {
                 OverviewStatistics(player, selected)
@@ -88,11 +91,13 @@ private fun OverviewStatistics(
 ) {
     Text(
         text = player.position ?: "",
-        color = textColor(selected)
+        color = textColor(selected),
+        textAlign = TextAlign.Center
     )
     Text(
         text = player.nationality ?: "",
-        color = textColor(selected)
+        color = textColor(selected),
+        textAlign = TextAlign.Center
     )
 }
 
@@ -103,15 +108,18 @@ private fun DetailedStatistics(
 ) {
     Text(
         text = stringResource(id = R.string.goals, player.goals?.total ?: 0),
-        color = textColor(selected)
+        color = textColor(selected),
+        textAlign = TextAlign.Center
     )
     Text(
         text = stringResource(id = R.string.assists, player.goals?.assists ?: 0),
-        color = textColor(selected)
+        color = textColor(selected),
+        textAlign = TextAlign.Center
     )
     Text(
         text = stringResource(id = R.string.passes, player.passes?.total ?: 0),
-        color = textColor(selected)
+        color = textColor(selected),
+        textAlign = TextAlign.Center
     )
 }
 
@@ -126,7 +134,7 @@ fun PlayerCardWithOverviewStatistics() {
     PlayerCard(player = previewPlayer, selected = true)
 }
 
-@Preview
+@Preview(widthDp = 140)
 @Composable
 fun PlayerCardWithDetailedStatistics() {
     PlayerCard(player = previewPlayer, selected = false, overviewMode = false)
@@ -134,7 +142,7 @@ fun PlayerCardWithDetailedStatistics() {
 
 private val previewPlayer = Player(
     1,
-    "Player",
+    "CESAR AZPILICUETA",
     "Defender",
     Random.nextInt(18, 35),
     "Serbia",
