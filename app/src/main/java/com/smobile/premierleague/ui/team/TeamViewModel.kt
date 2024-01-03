@@ -44,13 +44,6 @@ class TeamViewModel @Inject constructor(
         }
     }
 
-    val selectedPlayers: Pair<Int, Int>?
-        get() = playerOne.value?.id?.let { playerOneId ->
-            playerTwo.value?.id?.let { playerTwoId ->
-                Pair(playerOneId, playerTwoId)
-            }
-        }
-
     fun setTeamId(teamId: Int) {
         if (this.teamId.value == teamId) {
             return

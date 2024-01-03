@@ -12,7 +12,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * ViewModel for [SettingsFragment]
+ * ViewModel for [SettingsScreen]
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(

@@ -6,7 +6,7 @@ import java.util.concurrent.Executor
 /**
  * App executors for unit tests
  */
-class InstantAppExecutors : AppExecutors(instant, instant, instant) {
+class InstantAppExecutors : AppExecutors(instant, instant) {
     companion object {
         private val instant = Executor { it.run() }
     }
