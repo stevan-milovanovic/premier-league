@@ -35,7 +35,6 @@ class CountingAppExecutors(idleCallback: (() -> Unit)? = null) {
         }
         appExecutors = AppExecutors(
             CountingExecutor(increment, decrement),
-            CountingExecutor(increment, decrement),
             CountingExecutor(increment, decrement)
         )
     }
