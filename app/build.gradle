@@ -7,6 +7,7 @@ plugins {
     id 'kotlin-allopen'
     id 'com.starter.easylauncher'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.devtools.ksp'
 }
 
 apply from: "easy_launcher.gradle"
@@ -105,15 +106,18 @@ dependencies {
     //Room
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
 
-    //Gson
-    implementation 'com.google.code.gson:gson:2.10'
+    //MOSHI
+    def moshiVersion = '1.15.0'
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
 
     //Retrofit
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
 
     //Mock web server

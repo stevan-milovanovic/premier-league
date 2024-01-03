@@ -2,7 +2,8 @@ package com.smobile.premierleague.repository
 
 import androidx.lifecycle.LiveData
 import com.smobile.premierleague.AppExecutors
-import com.smobile.premierleague.Const
+import com.smobile.premierleague.Const.API_PLAYER_URL
+import com.smobile.premierleague.Const.API_PLAYER_URL_ID_PLACEHOLDER
 import com.smobile.premierleague.Const.LEAGUE
 import com.smobile.premierleague.api.LeagueService
 import com.smobile.premierleague.api.TeamNetworkResponse
@@ -26,7 +27,8 @@ class PlayerRepository @Inject constructor(
             override fun saveCallResult(item: TeamNetworkResponse) {
                 item.api.players.forEach {
                     it.teamId = teamId
-                    it.imageUrl = Const.API_PLAYER_URL.replace("{id}", it.id.toString())
+                    it.imageUrl =
+                        API_PLAYER_URL.replace(API_PLAYER_URL_ID_PLACEHOLDER, it.id.toString())
                 }
                 playerDao.insert(item.api.players)
             }
@@ -51,14 +53,20 @@ class PlayerRepository @Inject constructor(
                     if (it.id == playerOneId) {
                         if (it.league == LEAGUE) {
                             it.teamId = teamId
-                            it.imageUrl = Const.API_PLAYER_URL.replace("{id}", it.id.toString())
+                            it.imageUrl = API_PLAYER_URL.replace(
+                                API_PLAYER_URL_ID_PLACEHOLDER,
+                                it.id.toString()
+                            )
                             playerDao.insert(it)
                         }
                     }
                     if (it.id == playerTwoId) {
                         if (it.league == LEAGUE) {
                             it.teamId = teamId
-                            it.imageUrl = Const.API_PLAYER_URL.replace("{id}", it.id.toString())
+                            it.imageUrl = API_PLAYER_URL.replace(
+                                API_PLAYER_URL_ID_PLACEHOLDER,
+                                it.id.toString()
+                            )
                             playerDao.insert(it)
                         }
                     }

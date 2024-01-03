@@ -14,6 +14,8 @@ object Const {
     const val API_HOST_HEADER = "x-rapidapi-host"
     const val API_HOST_HEADER_VALUE = "api-football-v1.p.rapidapi.com"
 
-    const val API_PLAYER_URL = "https://media.api-sports.io/football/players/{id}.png"
+    const val API_PLAYER_URL_ID_PLACEHOLDER = "{id}"
+    const val API_PLAYER_URL =
+        "https://media.api-sports.io/football/players/$API_PLAYER_URL_ID_PLACEHOLDER.png"
 
 }

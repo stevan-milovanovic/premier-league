@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * Unit test class for [LeagueService]
@@ -35,7 +35,7 @@ class LeagueServiceTest {
         mockWebServer = MockWebServer()
         service = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
             .create(LeagueService::class.java)

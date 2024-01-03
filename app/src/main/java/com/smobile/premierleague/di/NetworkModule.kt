@@ -12,7 +12,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -43,7 +43,7 @@ class NetworkModule {
     fun providePremierLeagueService(client: OkHttpClient): LeagueService {
         return Retrofit.Builder()
             .baseUrl(Const.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .client(client)
             .build()
