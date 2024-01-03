@@ -32,6 +32,7 @@ updated to use latest tech stack in Android ecosystem.
 * [Material Design 3][material3]
 * [Downloadable Fonts][fonts]
 * [Retrofit][retrofit] for REST API communication
+* [Moshi][moshi] for parsing JSON into Kotlin classes
 * [Coil][coil] for image loading
 
 [arch]: https://developer.android.com/arch
@@ -47,6 +48,8 @@ updated to use latest tech stack in Android ecosystem.
 [fonts]: https://developer.android.com/develop/ui/views/text-and-emoji/downloadable-fonts
 
 [retrofit]: http://square.github.io/retrofit
+
+[moshi]: https://github.com/square/moshi
 
 [coil]: https://coil-kt.github.io/coil/compose
 
