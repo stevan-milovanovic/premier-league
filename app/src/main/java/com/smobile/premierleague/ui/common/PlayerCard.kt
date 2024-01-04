@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
+import com.smobile.premierleague.model.Goals
+import com.smobile.premierleague.model.Passes
 import com.smobile.premierleague.model.Player
 import kotlin.random.Random
 
@@ -145,12 +147,12 @@ private val previewPlayer = Player(
     "Serbia",
     null,
     null,
-    Player.Goals(
+    Goals(
         total = Random.nextInt(0, 10),
         conceded = Random.nextInt(0, 10),
         assists = Random.nextInt(0, 10),
     ),
-    Player.Passes(
+    Passes(
         total = Random.nextInt(0, 10),
         key = Random.nextInt(0, 10),
         accuracy = Random.nextInt(0, 10)

@@ -4,8 +4,10 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 @Entity(
     indices = [Index("teamId")],
     primaryKeys = ["id", "teamId"],
@@ -18,9 +20,9 @@ import com.google.gson.annotations.SerializedName
     )]
 )
 data class Player(
-    @field:SerializedName("player_id")
+    @field:Json(name = "player_id")
     val id: Int,
-    @field:SerializedName("player_name")
+    @field:Json(name = "player_name")
     val name: String,
     val position: String?,
     val age: Int,
@@ -44,42 +46,4 @@ data class Player(
     // does not show up in the response but set in post processing.
     var teamId: Int = -1
     var imageUrl: String? = null
-
-    data class Shots(
-        val total: Int,
-        val on: Int
-    )
-
-    data class Goals(
-        val total: Int,
-        val conceded: Int,
-        val assists: Int
-    )
-
-    data class Passes(
-        val total: Int,
-        val key: Int,
-        val accuracy: Int
-    )
-
-    data class Tackles(
-        val total: Int,
-        val blocks: Int,
-        val interceptions: Int
-    )
-
-    data class Duels(
-        val total: Int,
-        val won: Int
-    )
-
-    data class Dribbles(
-        val attempts: Int,
-        val success: Int
-    )
-
-    data class Fouls(
-        val drawn: Int,
-        val committed: Int
-    )
 }

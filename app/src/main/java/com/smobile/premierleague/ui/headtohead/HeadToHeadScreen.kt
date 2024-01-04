@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.smobile.premierleague.R
+import com.smobile.premierleague.model.Goals
+import com.smobile.premierleague.model.Passes
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
 import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
@@ -58,12 +60,12 @@ private fun HeadToHeadPreview() {
         null,
         null,
         null,
-        Player.Goals(
+        Goals(
             total = Random.nextInt(0, 10),
             conceded = Random.nextInt(0, 10),
             assists = Random.nextInt(0, 10),
         ),
-        Player.Passes(
+        Passes(
             total = Random.nextInt(0, 10),
             key = Random.nextInt(0, 10),
             accuracy = Random.nextInt(0, 10)

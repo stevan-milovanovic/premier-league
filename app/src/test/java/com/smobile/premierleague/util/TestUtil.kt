@@ -6,6 +6,7 @@ import com.smobile.premierleague.api.TeamNetworkApiResponse
 import com.smobile.premierleague.api.TeamNetworkResponse
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.Standing
+import com.smobile.premierleague.model.TeamStatistic
 import java.util.*
 
 object TestUtil {
@@ -29,7 +30,7 @@ object TestUtil {
         index,
         index.toString(),
         index.toString(),
-        Standing.TeamStatistic(index, index, index, index),
+        TeamStatistic(index, index, index, index),
         index
     )
 

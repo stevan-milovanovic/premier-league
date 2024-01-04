@@ -4,29 +4,23 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 @Entity(
     indices = [Index("id")]
 )
 data class Standing(
     @PrimaryKey
-    @field:SerializedName("team_id")
+    @field:Json(name = "team_id")
     val id: Int,
     val rank: Int,
-    @field:SerializedName("teamName")
+    @field:Json(name = "teamName")
     val name: String,
     val logo: String,
-    @field:SerializedName("all")
+    @field:Json(name = "all")
     @field:Embedded(prefix = "statistics_")
     val statistics: TeamStatistic,
     val points: Int
-) {
-    data class TeamStatistic(
-        @field:SerializedName("matchsPlayed")
-        val played: Int,
-        val win: Int,
-        val draw: Int,
-        val lose: Int
-    )
-}
+)

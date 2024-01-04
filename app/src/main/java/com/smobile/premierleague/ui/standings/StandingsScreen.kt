@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
 import com.smobile.premierleague.model.Standing
+import com.smobile.premierleague.model.TeamStatistic
 import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 
 @Composable
@@ -192,8 +193,8 @@ private fun StandingCategory(
 @Preview(showSystemUi = true, device = Devices.NEXUS_5)
 @Composable
 private fun StandingsScreenPreview() {
-    val statistics1 = Standing.TeamStatistic(6, 3, 1, 2)
-    val statistics2 = Standing.TeamStatistic(6, 2, 1, 3)
+    val statistics1 = TeamStatistic(6, 3, 1, 2)
+    val statistics2 = TeamStatistic(6, 2, 1, 3)
     val standings = listOf(
         Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
         Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
@@ -208,8 +209,8 @@ private fun StandingsScreenPreview() {
 @Preview(showSystemUi = true, locale = "sr", device = Devices.PIXEL)
 @Composable
 private fun StandingsScreenPreviewSerbianLocale() {
-    val statistics1 = Standing.TeamStatistic(6, 3, 1, 2)
-    val statistics2 = Standing.TeamStatistic(6, 2, 1, 3)
+    val statistics1 = TeamStatistic(6, 3, 1, 2)
+    val statistics2 = TeamStatistic(6, 2, 1, 3)
     val standings = listOf(
         Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
         Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
