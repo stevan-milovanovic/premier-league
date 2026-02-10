@@ -20,7 +20,7 @@ class StandingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        private const val PREMIER_LEAGUE_ID = 2790
+        private const val PREMIER_LEAGUE_ID = 47
     }
 
     private val leagueId: MutableLiveData<Int> = MutableLiveData()

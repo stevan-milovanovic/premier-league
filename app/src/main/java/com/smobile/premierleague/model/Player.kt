@@ -1,6 +1,5 @@
 package com.smobile.premierleague.model
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -20,30 +19,20 @@ import com.squareup.moshi.JsonClass
     )]
 )
 data class Player(
-    @field:Json(name = "player_id")
     val id: Int,
-    @field:Json(name = "player_name")
     val name: String,
+    val positionId: Int = PlayerPosition.UNKNOWN.order,
+    @field:Json(name = "positionIdsDesc")
     val position: String?,
     val age: Int,
+    @field:Json(name = "cname")
     val nationality: String?,
-    val league: String?,
-    @field:Embedded(prefix = "shots_")
-    val shots: Shots?,
-    @field:Embedded(prefix = "goals_")
-    val goals: Goals?,
-    @field:Embedded(prefix = "passes_")
-    val passes: Passes?,
-    @field:Embedded(prefix = "tackles_")
-    val tackles: Tackles?,
-    @field:Embedded(prefix = "duels_")
-    val duels: Duels?,
-    @field:Embedded(prefix = "dribbles_")
-    val dribbles: Dribbles?,
-    @field:Embedded(prefix = "fouls_")
-    val fouls: Fouls?
+    val goals: Int?,
+    val penalties: Int?,
+    val assists: Int?,
 ) {
     // does not show up in the response but set in post processing.
     var teamId: Int = -1
+    var squad: String? = null
     var imageUrl: String? = null
 }

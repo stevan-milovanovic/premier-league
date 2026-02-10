@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
@@ -32,8 +31,7 @@ class HeadToHeadViewModel @Inject constructor(
                         playerRepository.loadHeadToHeadStatistics(
                             playerOneId,
                             playerTwoId,
-                            teamId,
-                            SEASON
+                            teamId
                         )
                     } else {
                         AbsentLiveData.create()
@@ -67,18 +65,22 @@ class HeadToHeadViewModel @Inject constructor(
 
         players[0].goals?.let { playerOneGoals ->
             players[1].goals?.let { playerTwoGoals ->
-                if (playerOneGoals.total > playerTwoGoals.total) return playerOneId
-                if (playerOneGoals.total < playerTwoGoals.total) return playerTwoId
+                if (playerOneGoals > playerTwoGoals) return playerOneId
+                if (playerOneGoals < playerTwoGoals) return playerTwoId
+            }
+        }
 
-                if (playerOneGoals.assists > playerTwoGoals.assists) return playerOneId
-                if (playerOneGoals.assists < playerTwoGoals.assists) return playerTwoId
+        players[0].assists?.let { playerOneAssists ->
+            players[1].assists?.let { playerTwoAssists ->
+                if (playerOneAssists > playerTwoAssists) return playerOneId
+                if (playerOneAssists < playerTwoAssists) return playerTwoId
+            }
+        }
 
-                players[0].passes?.let { playerOnePasses ->
-                    players[1].passes?.let { playerTwoPasses ->
-                        if (playerOnePasses.total > playerTwoPasses.total) return playerOneId
-                        if (playerOnePasses.total < playerTwoPasses.total) return playerTwoId
-                    }
-                }
+        players[0].penalties?.let { playerOnePenalties ->
+            players[1].penalties?.let { playerTwoPenalties ->
+                if (playerOnePenalties > playerTwoPenalties) return playerOneId
+                if (playerOnePenalties < playerTwoPenalties) return playerTwoId
             }
         }
 

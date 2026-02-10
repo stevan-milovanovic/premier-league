@@ -24,8 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
-import com.smobile.premierleague.model.Goals
-import com.smobile.premierleague.model.Passes
 import com.smobile.premierleague.model.Player
 import kotlin.random.Random
 
@@ -106,17 +104,17 @@ private fun DetailedStatistics(
     selected: Boolean
 ) {
     Text(
-        text = stringResource(id = R.string.goals, player.goals?.total ?: 0),
+        text = stringResource(id = R.string.goals, player.goals ?: 0),
         color = textColor(selected),
         textAlign = TextAlign.Center
     )
     Text(
-        text = stringResource(id = R.string.assists, player.goals?.assists ?: 0),
+        text = stringResource(id = R.string.assists, player.assists ?: 0),
         color = textColor(selected),
         textAlign = TextAlign.Center
     )
     Text(
-        text = stringResource(id = R.string.passes, player.passes?.total ?: 0),
+        text = stringResource(id = R.string.penalties, player.penalties ?: 0),
         color = textColor(selected),
         textAlign = TextAlign.Center
     )
@@ -142,23 +140,11 @@ fun PlayerCardWithDetailedStatistics() {
 private val previewPlayer = Player(
     1,
     "CESAR AZPILICUETA",
+    1,
     "Defender",
     Random.nextInt(18, 35),
     "Serbia",
-    null,
-    null,
-    Goals(
-        total = Random.nextInt(0, 10),
-        conceded = Random.nextInt(0, 10),
-        assists = Random.nextInt(0, 10),
-    ),
-    Passes(
-        total = Random.nextInt(0, 10),
-        key = Random.nextInt(0, 10),
-        accuracy = Random.nextInt(0, 10)
-    ),
-    null,
-    null,
-    null,
-    null
+    Random.nextInt(0, 10),
+    Random.nextInt(0, 10),
+    Random.nextInt(0, 10)
 )

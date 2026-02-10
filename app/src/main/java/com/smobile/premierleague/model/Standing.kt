@@ -1,6 +1,5 @@
 package com.smobile.premierleague.model
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -13,14 +12,18 @@ import com.squareup.moshi.JsonClass
 )
 data class Standing(
     @PrimaryKey
-    @field:Json(name = "team_id")
     val id: Int,
+    @field:Json(name = "idx")
     val rank: Int,
-    @field:Json(name = "teamName")
+    @field:Json(name = "shortName")
     val name: String,
-    val logo: String,
-    @field:Json(name = "all")
-    @field:Embedded(prefix = "statistics_")
-    val statistics: TeamStatistic,
+    val played: Int,
+    val wins: Int,
+    val draws: Int,
+    val losses: Int,
+    @field:Json(name = "pts")
     val points: Int
-)
+) {
+    // does not show up in the response but set in post processing.
+    var logo: String? = null
+}

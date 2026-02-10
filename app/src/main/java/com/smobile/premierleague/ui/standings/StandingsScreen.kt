@@ -33,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.smobile.premierleague.R
 import com.smobile.premierleague.model.Standing
-import com.smobile.premierleague.model.TeamStatistic
 import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
 
 @Composable
@@ -77,10 +76,10 @@ private fun StandingsList(
                 position = stringResource(id = R.string.rank, standing.rank),
                 teamLogoUrl = standing.logo,
                 teamName = standing.name,
-                playedGames = stringResource(id = R.string.value, standing.statistics.played),
-                wonGames = stringResource(id = R.string.value, standing.statistics.win),
-                drawnGames = stringResource(id = R.string.value, standing.statistics.draw),
-                lostGames = stringResource(id = R.string.value, standing.statistics.lose),
+                playedGames = stringResource(id = R.string.value, standing.played),
+                wonGames = stringResource(id = R.string.value, standing.wins),
+                drawnGames = stringResource(id = R.string.value, standing.draws),
+                lostGames = stringResource(id = R.string.value, standing.losses),
                 points = stringResource(id = R.string.value, standing.points),
                 showSelectedTeam = showSelectedTeam
             )
@@ -193,11 +192,9 @@ private fun StandingCategory(
 @Preview(showSystemUi = true, device = Devices.NEXUS_5)
 @Composable
 private fun StandingsScreenPreview() {
-    val statistics1 = TeamStatistic(6, 3, 1, 2)
-    val statistics2 = TeamStatistic(6, 2, 1, 3)
     val standings = listOf(
-        Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
-        Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
+        Standing(1, 1, "Arsenal", 10, 6, 3, 1, 2),
+        Standing(2, 2, "Chelsea", 7, 6, 3, 1, 2)
     )
     StandingsScreen(
         standings = standings,
@@ -209,11 +206,9 @@ private fun StandingsScreenPreview() {
 @Preview(showSystemUi = true, locale = "sr", device = Devices.PIXEL)
 @Composable
 private fun StandingsScreenPreviewSerbianLocale() {
-    val statistics1 = TeamStatistic(6, 3, 1, 2)
-    val statistics2 = TeamStatistic(6, 2, 1, 3)
     val standings = listOf(
-        Standing(1, 1, "Arsenal", "arsenal.com", statistics1, 10),
-        Standing(2, 2, "Chelsea", "Chelsea.com", statistics2, 7)
+        Standing(1, 1, "Arsenal", 10, 6, 3, 1, 2),
+        Standing(2, 2, "Chelsea", 7, 6, 3, 1, 2)
     )
     StandingsScreen(
         standings = standings,
