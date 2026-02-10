@@ -10,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.smobile.premierleague.R
-import com.smobile.premierleague.model.Goals
-import com.smobile.premierleague.model.Passes
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
 import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
@@ -55,25 +53,13 @@ private fun HeadToHeadPreview() {
     val player = Player(
         1,
         "Player",
+        1,
         null,
         Random.nextInt(18, 35),
-        null,
-        null,
-        null,
-        Goals(
-            total = Random.nextInt(0, 10),
-            conceded = Random.nextInt(0, 10),
-            assists = Random.nextInt(0, 10),
-        ),
-        Passes(
-            total = Random.nextInt(0, 10),
-            key = Random.nextInt(0, 10),
-            accuracy = Random.nextInt(0, 10)
-        ),
-        null,
-        null,
-        null,
-        null
+        "Serbia",
+        Random.nextInt(0, 10),
+        Random.nextInt(0, 10),
+        Random.nextInt(0, 10)
     )
     val players = generateSequence { player }.take(2).toList()
     HeadToHeadScreen(players = players, winnerId = 2, onBackNavigation = {})

@@ -6,7 +6,7 @@
     <string name="age">Godina: %1$d</string>
     <string name="goals">Golova: %1$d</string>
     <string name="assists">Asistencija: %1$d</string>
-    <string name="passes">Pasova: %1$d</string>
+    <string name="penalties">Penala: %1$d</string>
     <string name="team_logo">Logo tima</string>
     <string name="club">Klub</string>
     <string name="played">Odig</string>

@@ -23,8 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.smobile.premierleague.R
-import com.smobile.premierleague.model.Goals
-import com.smobile.premierleague.model.Passes
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.ui.common.PlayerCard
 import com.smobile.premierleague.ui.common.PremierLeagueTopAppBar
@@ -109,25 +107,13 @@ fun TeamScreenPreview() {
     val player = Player(
         1,
         "Player",
+        1,
         "Defender",
         Random.nextInt(18, 35),
         "Serbian",
-        null,
-        null,
-        Goals(
-            total = Random.nextInt(0, 10),
-            conceded = Random.nextInt(0, 10),
-            assists = Random.nextInt(0, 10),
-        ),
-        Passes(
-            total = Random.nextInt(0, 10),
-            key = Random.nextInt(0, 10),
-            accuracy = Random.nextInt(0, 10)
-        ),
-        null,
-        null,
-        null,
-        null
+        Random.nextInt(0, 10),
+        Random.nextInt(0, 10),
+        Random.nextInt(0, 10),
     )
     val players = generateSequence { player }.take(2).toList()
     PremierLeagueTheme {

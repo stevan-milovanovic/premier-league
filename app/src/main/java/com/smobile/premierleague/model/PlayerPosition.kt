@@ -1,11 +1,11 @@
 package com.smobile.premierleague.model
 
 enum class PlayerPosition(val title: String?, val order: Int) {
-    GOALKEEPER("Goalkeeper", 1),
-    DEFENDER("Defender", 2),
-    MIDFIELDER("Midfielder", 3),
-    ATTACKER("Attacker", 4),
-    UNKNOWN(null, 5);
+    GOALKEEPER("Goalkeeper", 0),
+    DEFENDER("Defender", 1),
+    MIDFIELDER("Midfielder", 2),
+    ATTACKER("Attacker", 3),
+    UNKNOWN(null, 4);
 
     companion object {
         fun mapToOrder(title: String?) = when (title) {

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.smobile.premierleague.Const.SEASON
 import com.smobile.premierleague.model.Player
 import com.smobile.premierleague.model.base.Resource
 import com.smobile.premierleague.repository.PlayerRepository
@@ -25,7 +24,7 @@ class TeamViewModel @Inject constructor(
     private val playerTwoId: MutableLiveData<Int?> = MutableLiveData()
 
     val players: LiveData<Resource<List<Player>>> = teamId.switchMap {
-        playerRepository.loadTeam(it, SEASON)
+        playerRepository.loadTeam(it)
     }
 
     val playerOne: LiveData<Player> = playerOneId.switchMap {
